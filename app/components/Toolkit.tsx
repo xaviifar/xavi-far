@@ -97,14 +97,7 @@ export default function Toolkit() {
       aria-labelledby="stack"
       className="relative border-b border-[#161616]/10 py-7 sm:py-9"
     >
-      {/* Corner markers */}
-      <span className="pointer-events-none absolute -left-[5px] -top-[5px] hidden font-mono text-[10px] text-[#161616]/25 sm:block">
-        +
-      </span>
 
-      <span className="pointer-events-none absolute -right-[5px] -top-[5px] hidden font-mono text-[10px] text-[#161616]/25 sm:block">
-        +
-      </span>
 
       <SectionHeader
         // index="03"

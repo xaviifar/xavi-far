@@ -244,7 +244,7 @@ export default function ExperiencePage() {
                 <path d="M16 13H8" />
                 <path d="M16 17H8" />
               </svg>
-              <span>Download CV (PDF)</span>
+              <span>Resume</span>
               <span className="transition-transform duration-200 group-hover:translate-y-0.5 text-[10px]">
                 ↓
               </span>
@@ -256,22 +256,20 @@ export default function ExperiencePage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-[#161616]/10 bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#161616] transition-all hover:border-[#161616]/30 hover:bg-[#161616]/5"
             >
-              <span>LinkedIn Profile</span>
-              <span className="text-[10px] text-[#161616]/40">↗</span>
+              <span>LinkedIn</span>
             </a>
 
             <a
               href="mailto:xavifarmartinez@gmail.com"
               className="inline-flex items-center gap-2 rounded-md border border-[#161616]/10 bg-white px-3.5 py-2 text-[12.5px] font-medium text-[#161616] transition-all hover:border-[#161616]/30 hover:bg-[#161616]/5"
             >
-              <span>Contact Directly</span>
-              <span className="text-[10px] text-[#161616]/40">↗</span>
+              <span>Contact</span>
             </a>
           </div>
         </section>
 
         {/* SECTION 01: PROFESSIONAL EXPERIENCE */}
-        <section className="relative py-8 sm:py-10 border-b border-[#161616]/10">
+        <section className="relative py-8 sm:py-10">
           <SectionHeader
             // index="01"
             // kicker="Track Record"
@@ -362,7 +360,7 @@ export default function ExperiencePage() {
         </section>
 
         {/* SECTION 02: ACADEMIC BACKGROUND */}
-        <section className="relative py-8 sm:py-10 border-b border-[#161616]/10">
+        <section className="relative py-8 sm:py-10 ">
           <SectionHeader
             // index="02"
             // kicker="Education"
@@ -419,9 +417,7 @@ export default function ExperiencePage() {
         {/* SECTION 03: CERTIFICATIONS */}
         <section className="relative py-8 sm:py-10 border-b border-[#161616]/10">
           <SectionHeader
-            index="03"
-            kicker="Credentials"
-            title="Certifications"
+            title="Credentials"
             subtitle="Verified technical credentials in Microsoft Azure AI services, machine learning foundations, and cloud architecture."
           />
 
