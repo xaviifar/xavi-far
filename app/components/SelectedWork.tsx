@@ -96,7 +96,7 @@ export const selectedProjects: Project[] = [
 
 export default function SelectedWork() {
   return (
-    <section aria-labelledby="projects" className="relative py-8 sm:py-10 border-b border-[#161616]/10">
+    <section aria-labelledby="projects" className="relative py-8 sm:py-10">
       {/* Structural Corner Wireframe Markers */}
       {/* <span className="absolute -left-[5px] -top-[5px] font-mono text-[10px] text-[#161616]/30 select-none pointer-events-none hidden sm:inline-block">
         +
@@ -112,8 +112,8 @@ export default function SelectedWork() {
       </span> */}
 
       <SectionHeader
-        index="01"
-        kicker="Featured Work"
+        // index="01"
+        // kicker="Featured Work"
         title="Selected Projects"
         subtitle="AI systems, RAG pipelines, and distributed architectures built for production."
       />

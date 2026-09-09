@@ -273,8 +273,8 @@ export default function ExperiencePage() {
         {/* SECTION 01: PROFESSIONAL EXPERIENCE */}
         <section className="relative py-8 sm:py-10 border-b border-[#161616]/10">
           <SectionHeader
-            index="01"
-            kicker="Track Record"
+            // index="01"
+            // kicker="Track Record"
             title="Professional Experience"
             subtitle="Production engineering roles across AI systems, backend microservices, and reliable infrastructure."
           />
@@ -364,9 +364,9 @@ export default function ExperiencePage() {
         {/* SECTION 02: ACADEMIC BACKGROUND */}
         <section className="relative py-8 sm:py-10 border-b border-[#161616]/10">
           <SectionHeader
-            index="02"
-            kicker="Education"
-            title="Academic Background"
+            // index="02"
+            // kicker="Education"
+            title="Education"
             subtitle="Formal engineering education, advanced postgraduate specialization, and foundational computer science."
           />
 
@@ -421,7 +421,7 @@ export default function ExperiencePage() {
           <SectionHeader
             index="03"
             kicker="Credentials"
-            title="Industry Certifications"
+            title="Certifications"
             subtitle="Verified technical credentials in Microsoft Azure AI services, machine learning foundations, and cloud architecture."
           />
 

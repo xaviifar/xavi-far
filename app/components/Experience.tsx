@@ -134,10 +134,10 @@ function ExperienceCard({ exp }: { exp: ExperienceItem }) {
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative py-8 sm:py-10 border-b border-[#161616]/10">
+    <section id="experience" className="relative py-8 sm:py-10">
       <SectionHeader
-        index="02"
-        kicker="Background & Track Record"
+        // index="02"
+        // kicker="Background & Track Record"
         title="Professional Experience"
         subtitle="Software engineering, AI system deployment, and infrastructure operations."
       />

@@ -190,8 +190,8 @@ export default function ProjectsPage() {
         {/* Section 01: Project Blueprints */}
         <section className="relative py-7 sm:py-9 border-b border-[#161616]/10">
           <SectionHeader
-            index="01"
-            kicker="Production Blueprints"
+            // index="01"
+            // kicker="Production Blueprints"
             title="Projects &amp; Architecture Archive"
             subtitle="A comprehensive record of backend architectures, AI agent systems, and data pipelines built for production environments."
           />
@@ -303,71 +303,7 @@ export default function ProjectsPage() {
             ))}
           </div>
         </section>
-
-        {/* Section 02: Certifications */}
-        <section className="relative py-7 sm:py-9 border-b border-[#161616]/10">
-          <SectionHeader
-            index="02"
-            kicker="Validated Knowledge"
-            title="Certifications &amp; Credentials"
-            subtitle="Verified academic credentials and formal engineering specializations."
-          />
-
-          <div className="flex flex-col gap-4">
-            {certifications.map((cert) => (
-              <div
-                key={cert.id}
-                className="group flex items-start gap-3.5 sm:gap-4 border-b border-[#161616]/10 pb-4 last:border-0"
-              >
-                <div className="relative mt-0.5 h-9 w-9 shrink-0 overflow-hidden rounded-md border border-[#161616]/10 bg-white p-1 flex items-center justify-center">
-                  {cert.logoSrc ? (
-                    <Image
-                      src={cert.logoSrc}
-                      alt={cert.issuer}
-                      fill
-                      className="object-contain p-0.5"
-                    />
-                  ) : cert.icon ? (
-                    <cert.icon
-                      size={18}
-                      style={{ color: cert.brandColor || "#161616" }}
-                    />
-                  ) : null}
-                </div>
-
-                <div className="flex flex-1 flex-col">
-                  <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
-                    <h4 className="text-[14px] font-medium text-[#161616]">
-                      {cert.title}
-                    </h4>
-                    <span className="font-mono text-[10.5px] text-[#161616]/40">
-                      {cert.date}
-                    </span>
-                  </div>
-
-                  <span className="text-[12.5px] text-[#161616]/60 font-medium">
-                    {cert.issuer}
-                  </span>
-
-                  <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-[10px] text-[#161616]/50 bg-white px-2 py-0.5 rounded border border-[#161616]/10">
-                      ID: {cert.credentialId}
-                    </span>
-                    {cert.skills.map((s) => (
-                      <span
-                        key={s}
-                        className="rounded-md bg-white border border-[#161616]/10 px-2 py-0.5 text-[10.5px] font-medium text-[#161616]/75"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
+        
         <Footer />
       </div>
     </main>
