@@ -24,8 +24,9 @@ import Header from "@/app/components/Header";
 import SectionHeader from "@/app/components/SectionHeader";
 import Toolkit from "@/app/components/Toolkit";
 import Footer from "@/app/components/Footer";
+import TechBadge from "@/app/components/TechBadge";
 
-interface TechBadge {
+interface TechItem {
   name: string;
   brandColor: string;
   icon: IconType;
@@ -44,7 +45,7 @@ interface WorkExperience {
     period: string;
     description: string;
   };
-  technologies: TechBadge[];
+  technologies: TechItem[];
 }
 
 const workHistory: WorkExperience[] = [
@@ -168,21 +169,19 @@ const certifications = [
   },
 ];
 
-function TechBadgeList({ technologies }: { technologies: TechBadge[] }) {
+function TechBadgeList({ technologies }: { technologies: TechItem[] }) {
   return (
     <ul className="flex flex-wrap gap-1.5 pt-1">
       {technologies.map((tech) => {
         const Icon = tech.icon;
         return (
           <li key={tech.name} className="flex">
-            <span className="inline-flex items-center gap-1.5 rounded-md border border-[#161616]/10 bg-white/80 px-2 py-0.8 text-[11px] font-medium text-[#161616] transition-colors hover:border-[#161616]/30">
-              <Icon
-                className="h-3.5 w-3.5 shrink-0"
-                style={{ color: tech.brandColor }}
-                aria-hidden="true"
-              />
-              <span>{tech.name}</span>
-            </span>
+            <TechBadge
+              name={tech.name}
+              icon={<Icon className="w-4 h-4 shrink-0" style={{ color: tech.brandColor }} />}
+              brandColor={tech.brandColor}
+              size="sm"
+            />
           </li>
         );
       })}
@@ -273,7 +272,7 @@ export default function ExperiencePage() {
           <SectionHeader
             // index="01"
             // kicker="Track Record"
-            title="Professional Experience"
+            title="Experience"
             subtitle="Production engineering roles across AI systems, backend microservices, and reliable infrastructure."
           />
 
@@ -458,14 +457,14 @@ export default function ExperiencePage() {
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-1 pt-3.5 border-t border-[#161616]/10 mt-3.5">
+                  <div className="flex flex-wrap gap-1.5 pt-3.5 border-t border-[#161616]/10 mt-3.5">
                     {cert.skills.map((skill) => (
-                      <span
+                      <TechBadge
                         key={skill}
-                        className="rounded-md border border-[#161616]/10 bg-white px-2 py-0.5 font-mono text-[10px] text-[#161616]/60"
-                      >
-                        {skill}
-                      </span>
+                        name={skill}
+                        brandColor={cert.color}
+                        size="sm"
+                      />
                     ))}
                   </div>
                 </article>

@@ -1,3 +1,4 @@
+import React from "react";
 import type { IconType } from "react-icons";
 import {
   SiPython,
@@ -52,17 +53,17 @@ const focusAreas = [
   "Autonomous Agents",
 ];
 
+import TechBadge from "./TechBadge";
+
 function ToolChip({ label, icon: Icon, color }: Tool) {
   return (
-    <li className="group inline-flex items-center gap-1.5 rounded-md border border-[#161616]/10 bg-white/60 px-2.5 py-1 text-[11.5px] font-medium text-[#161616] transition-all duration-200 hover:border-[#161616]/30">
-      {Icon && (
-        <Icon
-          className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover:scale-110"
-          style={{ color }}
-          aria-hidden="true"
-        />
-      )}
-      {label}
+    <li>
+      <TechBadge
+        name={label}
+        icon={Icon ? <Icon className="w-4 h-4 shrink-0" style={{ color }} /> : undefined}
+        brandColor={color}
+        size="md"
+      />
     </li>
   );
 }
@@ -91,16 +92,18 @@ export default function Skills() {
         <h3 className="text-[10.5px] font-mono font-medium uppercase tracking-[0.08em] text-[#161616]/40">
           Core Focus Areas
         </h3>
-        <ul className="mt-2.5 flex flex-wrap gap-1.5 p-0">
-          {focusAreas.map((area) => (
-            <li
-              key={area}
-              className="rounded-md bg-[#161616]/5 border border-[#161616]/10 px-2.5 py-0.5 font-mono text-[10.5px] text-[#161616]/70"
-            >
-              {area}
-            </li>
+        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-[#161616]/75">
+          {focusAreas.map((area, idx) => (
+            <React.Fragment key={area}>
+              <span className="font-normal hover:text-[#161616] transition-colors cursor-default select-none">
+                {area}
+              </span>
+              {idx < focusAreas.length - 1 && (
+                <span className="text-[#161616]/25 select-none font-mono text-[10px]">•</span>
+              )}
+            </React.Fragment>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

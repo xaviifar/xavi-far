@@ -2,6 +2,7 @@ import Image from "next/image";
 import Header from "@/app/components/Header";
 import SectionHeader from "@/app/components/SectionHeader";
 import Footer from "@/app/components/Footer";
+import TechBadge from "@/app/components/TechBadge";
 import { IconType } from "react-icons";
 import { VscAzure } from "react-icons/vsc";
 import {
@@ -27,7 +28,7 @@ interface ProjectDetail {
   problem: string;
   architecture: string;
   built: string;
-  technologies: { name: string; icon?: React.ReactNode }[];
+  technologies: { name: string; brandColor?: string; icon?: React.ReactNode }[];
   result: string;
 }
 
@@ -48,26 +49,32 @@ const allProjects: ProjectDetail[] = [
     technologies: [
       {
         name: "Python",
+        brandColor: "#3776AB",
         icon: <SiPython className="h-3.5 w-3.5 shrink-0" style={{ color: "#3776AB" }} />,
       },
       {
         name: "FastAPI",
+        brandColor: "#009688",
         icon: <SiFastapi className="h-3.5 w-3.5 shrink-0" style={{ color: "#009688" }} />,
       },
       {
         name: "Redis",
+        brandColor: "#DC382D",
         icon: <SiRedis className="h-3.5 w-3.5 shrink-0" style={{ color: "#DC382D" }} />,
       },
       {
         name: "PostgreSQL",
+        brandColor: "#4169E1",
         icon: <SiPostgresql className="h-3.5 w-3.5 shrink-0" style={{ color: "#4169E1" }} />,
       },
       {
         name: "Docker",
+        brandColor: "#2496ED",
         icon: <SiDocker className="h-3.5 w-3.5 shrink-0" style={{ color: "#2496ED" }} />,
       },
       {
         name: "LangChain",
+        brandColor: "#1C1C1C",
         icon: <SiLangchain className="h-3.5 w-3.5 shrink-0" style={{ color: "#1C1C1C" }} />,
       },
     ],
@@ -90,26 +97,32 @@ const allProjects: ProjectDetail[] = [
     technologies: [
       {
         name: "Python",
+        brandColor: "#3776AB",
         icon: <SiPython className="h-3.5 w-3.5 shrink-0" style={{ color: "#3776AB" }} />,
       },
       {
         name: "Qdrant",
+        brandColor: "#DC244C",
         icon: <SiQdrant className="h-3.5 w-3.5 shrink-0" style={{ color: "#DC244C" }} />,
       },
       {
         name: "FastAPI",
+        brandColor: "#009688",
         icon: <SiFastapi className="h-3.5 w-3.5 shrink-0" style={{ color: "#009688" }} />,
       },
       {
         name: "Airflow",
+        brandColor: "#017CEE",
         icon: <SiApacheairflow className="h-3.5 w-3.5 shrink-0" style={{ color: "#017CEE" }} />,
       },
       {
         name: "Next.js",
+        brandColor: "#000000",
         icon: <SiNextdotjs className="h-3.5 w-3.5 shrink-0 text-[#161616]" />,
       },
       {
         name: "Tailwind CSS",
+        brandColor: "#06B6D4",
         icon: <SiTailwindcss className="h-3.5 w-3.5 shrink-0" style={{ color: "#06B6D4" }} />,
       },
     ],
@@ -192,7 +205,7 @@ export default function ProjectsPage() {
           <SectionHeader
             // index="01"
             // kicker="Production Blueprints"
-            title="Projects &amp; Architecture Archive"
+            title="Projects"
             subtitle="A comprehensive record of backend architectures, AI agent systems, and data pipelines built for production environments."
           />
 
@@ -275,17 +288,13 @@ export default function ProjectsPage() {
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {project.technologies.map((t) => (
-                        <span
+                        <TechBadge
                           key={t.name}
-                          className="inline-flex items-center gap-1.5 rounded-md bg-white border border-[#161616]/10 px-2 py-0.8 text-[11px] font-medium text-[#161616]"
-                        >
-                          {t.icon && (
-                            <span className="flex items-center justify-center shrink-0">
-                              {t.icon}
-                            </span>
-                          )}
-                          {t.name}
-                        </span>
+                          name={t.name}
+                          icon={t.icon}
+                          brandColor={t.brandColor}
+                          size="sm"
+                        />
                       ))}
                     </div>
                   </div>

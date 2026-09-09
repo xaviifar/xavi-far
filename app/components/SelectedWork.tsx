@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
+import TechBadge from "./TechBadge";
 import {
   SiPython,
   SiFastapi,
@@ -15,6 +16,7 @@ import {
 
 interface TechItem {
   name: string;
+  brandColor?: string;
   icon?: React.ReactNode;
 }
 
@@ -42,25 +44,29 @@ export const selectedProjects: Project[] = [
     tech: [
       {
         name: "Python",
+        brandColor: "#3776AB",
         icon: <SiPython className="h-3.5 w-3.5 shrink-0" style={{ color: "#3776AB" }} />,
       },
       {
         name: "FastAPI",
+        brandColor: "#009688",
         icon: <SiFastapi className="h-3.5 w-3.5 shrink-0" style={{ color: "#009688" }} />,
       },
       {
         name: "Redis",
+        brandColor: "#DC382D",
         icon: <SiRedis className="h-3.5 w-3.5 shrink-0" style={{ color: "#DC382D" }} />,
       },
       {
         name: "PostgreSQL",
+        brandColor: "#4169E1",
         icon: <SiPostgresql className="h-3.5 w-3.5 shrink-0" style={{ color: "#4169E1" }} />,
       },
       {
         name: "Docker",
+        brandColor: "#2496ED",
         icon: <SiDocker className="h-3.5 w-3.5 shrink-0" style={{ color: "#2496ED" }} />,
       },
-      
     ],
   },
   {
@@ -75,21 +81,24 @@ export const selectedProjects: Project[] = [
     tech: [
       {
         name: "Python",
+        brandColor: "#3776AB",
         icon: <SiPython className="h-3.5 w-3.5 shrink-0" style={{ color: "#3776AB" }} />,
       },
       {
         name: "Qdrant",
+        brandColor: "#DC244C",
         icon: <SiQdrant className="h-3.5 w-3.5 shrink-0" style={{ color: "#DC244C" }} />,
       },
       {
         name: "Airflow",
+        brandColor: "#017CEE",
         icon: <SiApacheairflow className="h-3.5 w-3.5 shrink-0" style={{ color: "#017CEE" }} />,
       },
       {
         name: "Docker",
+        brandColor: "#2496ED",
         icon: <SiDocker className="h-3.5 w-3.5 shrink-0" style={{ color: "#2496ED" }} />,
       },
-    
     ],
   },
 ];
@@ -179,15 +188,7 @@ export default function SelectedWork() {
 
                   {/* Micro Actions (Live & Code) */}
                   <div className="flex shrink-0 items-center gap-1.5">
-                    {project.liveUrl && (
-                      <Link
-                        href={project.liveUrl}
-                        className="inline-flex items-center gap-1 rounded-md border border-[#161616]/10 bg-white/80 px-2.5 py-0.8 text-[11.5px] font-medium text-[#161616] transition-colors hover:border-[#161616]/30 hover:bg-white shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
-                      >
-                        <span>Live</span>
-                        <span className="text-[10px] text-[#161616]/40">↗</span>
-                      </Link>
-                    )}
+                    
                     {project.githubUrl && (
                       <a
                         href={project.githubUrl}
@@ -213,10 +214,12 @@ export default function SelectedWork() {
                 <ul className="flex flex-wrap gap-1.5 pt-0.5">
                   {project.tech.map((t) => (
                     <li key={t.name} className="flex">
-                      <span className="inline-flex items-center gap-1 rounded-md border border-[#161616]/10 bg-white/70 px-2 py-0.8 text-[11px] font-medium text-[#161616] transition-colors hover:border-[#161616]/30">
-                        {t.icon}
-                        <span>{t.name}</span>
-                      </span>
+                      <TechBadge
+                        name={t.name}
+                        icon={t.icon}
+                        brandColor={t.brandColor}
+                        size="sm"
+                      />
                     </li>
                   ))}
                 </ul>

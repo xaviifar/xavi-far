@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import SectionHeader from "@/app/components/SectionHeader";
-import Footer from "@/app/components/Footer";
+// import Footer from "@/app/components/Footer"; // Si lo necesitas, lo puedes añadir al final
 
 interface Message {
   id: number;
@@ -72,36 +72,34 @@ export default function ChatPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f3f3f1] text-[#161616]">
+    <main className="relative min-h-screen bg-[#f3f3f1] text-[#161616]">
       <div className="mx-auto flex min-h-screen w-full max-w-[840px] flex-col border-[#161616]/10 px-6 sm:border-x sm:px-12 md:px-16">
         <Header />
 
-        {/* Header */}
-        <div className="pt-8">
+        {/* Header Section */}
+        <div className="pt-12 pb-6">
           <SectionHeader
-            index="AI"
-            title="Ask my AI."
+            title="Ask my AI"
             subtitle="Explore my experience, projects and technical background through an AI-powered interface."
           />
         </div>
 
-        {/* Chat */}
-        <div className="flex-1 py-10">
+        {/* Chat Area */}
+        <div className="flex-1 pb-32 pt-6"> {/* pb-32 da espacio para que el input no tape el último mensaje */}
           <div className="mx-auto flex w-full max-w-[680px] flex-col">
+            
             {/* Messages */}
-            <div className="flex flex-col gap-7">
+            <div className="flex flex-col gap-8">
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={
-                    message.role === "user"
-                      ? "flex justify-end"
-                      : "flex justify-start"
-                  }
+                  className={`flex ${
+                    message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
                   {message.role === "ai" ? (
-                    <div className="flex max-w-[90%] items-start gap-3">
-                      <div className="relative mt-0.5 h-7 w-7 shrink-0 overflow-hidden rounded-full bg-white">
+                    <div className="flex max-w-[90%] items-start gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                      <div className="relative mt-1 h-8 w-8 shrink-0 overflow-hidden rounded-full ring-1 ring-black/5">
                         <Image
                           src="/portfolio.jpg"
                           alt="Xavi AI"
@@ -109,23 +107,22 @@ export default function ChatPage() {
                           className="object-cover grayscale"
                         />
                       </div>
-
-                      <p className="text-[14px] leading-[1.7] text-[#161616]/80">
+                      <p className="text-[15px] leading-relaxed text-[#161616]/85">
                         {message.text}
                       </p>
                     </div>
                   ) : (
-                    <div className="max-w-[80%] rounded-lg bg-[#161616] px-4 py-2.5 text-[14px] leading-[1.6] text-[#f3f3f1]">
+                    <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-[#161616] px-5 py-3 text-[15px] leading-relaxed text-[#f3f3f1] shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
                       {message.text}
                     </div>
                   )}
                 </div>
               ))}
 
-              {/* Typing */}
+              {/* Typing Indicator */}
               {isTyping && (
-                <div className="flex items-center gap-3">
-                  <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full bg-white">
+                <div className="flex items-center gap-4 animate-in fade-in duration-300">
+                  <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full ring-1 ring-black/5">
                     <Image
                       src="/portfolio.jpg"
                       alt="Xavi AI"
@@ -133,32 +130,30 @@ export default function ChatPage() {
                       className="object-cover grayscale"
                     />
                   </div>
-
-                  <div className="flex gap-1">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#161616]/30" />
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#161616]/30 [animation-delay:150ms]" />
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#161616]/30 [animation-delay:300ms]" />
+                  <div className="flex gap-1.5 rounded-2xl bg-black/5 px-4 py-3">
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#161616]/40" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#161616]/40 [animation-delay:150ms]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#161616]/40 [animation-delay:300ms]" />
                   </div>
                 </div>
               )}
 
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className="h-1" />
             </div>
 
             {/* Suggestions */}
             {messages.length === 1 && !isTyping && (
-              <div className="mt-10">
-                <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.15em] text-[#161616]/35">
-                  Try asking
+              <div className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <p className="mb-4 pl-1 font-mono text-[10px] uppercase tracking-widest text-[#161616]/40">
+                  Suggested queries
                 </p>
-
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2.5">
                   {suggestions.map((suggestion) => (
                     <button
                       key={suggestion}
                       type="button"
                       onClick={() => handleSend(suggestion)}
-                      className="rounded-md border border-[#161616]/10 bg-white/60 px-3 py-1.5 text-[11px] text-[#161616]/60 transition-colors hover:border-[#161616]/25 hover:bg-white hover:text-[#161616]"
+                      className="rounded-full border border-black/10 bg-white/50 px-4 py-2 text-[12px] font-medium text-[#161616]/70 transition-all hover:-translate-y-0.5 hover:border-black/20 hover:bg-white hover:text-[#161616] hover:shadow-sm active:translate-y-0"
                     >
                       {suggestion}
                     </button>
@@ -169,18 +164,18 @@ export default function ChatPage() {
           </div>
         </div>
 
-        {/* Input */}
-        <div className="mx-auto w-full max-w-[680px] pb-8">
+        {/* Floating Input */}
+        <div className="sticky bottom-6 mx-auto w-full max-w-[680px] px-2 sm:px-0 z-10">
           <form
             onSubmit={handleSubmit}
-            className="flex items-center rounded-lg border border-[#161616]/15 bg-white/70 transition-colors focus-within:border-[#161616]/35 focus-within:bg-white"
+            className="relative flex items-center rounded-full border border-black/5 bg-white/80 p-1.5 shadow-sm backdrop-blur-xl transition-shadow focus-within:shadow-md"
           >
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask about my work..."
-              className="min-w-0 flex-1 bg-transparent px-4 py-3 text-[14px] outline-none placeholder:text-[#161616]/35"
+              placeholder="Ask anything about Xavi..."
+              className="min-w-0 flex-1 bg-transparent px-5 py-3 text-[15px] outline-none placeholder:text-[#161616]/40"
               autoComplete="off"
             />
 
@@ -188,22 +183,23 @@ export default function ChatPage() {
               type="submit"
               disabled={!inputValue.trim() || isTyping}
               aria-label="Send message"
-              className={`mr-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-md transition-all ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-200 ${
                 inputValue.trim() && !isTyping
-                  ? "bg-[#161616] text-white"
-                  : "text-[#161616]/20"
+                  ? "bg-[#161616] text-white shadow-md hover:bg-black"
+                  : "bg-transparent text-[#161616]/20"
               }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                className={inputValue.trim() && !isTyping ? "translate-x-0.5" : ""}
               >
                 <line x1="22" y1="2" x2="11" y2="13" />
                 <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -211,8 +207,8 @@ export default function ChatPage() {
             </button>
           </form>
 
-          <p className="mt-2 text-center font-mono text-[9px] text-[#161616]/25">
-            AI assistant · Ask anything about Xavi
+          <p className="mt-3 text-center font-mono text-[10px] text-[#161616]/30">
+            AI responses may not be perfectly accurate.
           </p>
         </div>
 

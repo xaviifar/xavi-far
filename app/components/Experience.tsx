@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "./SectionHeader";
+import TechBadge from "./TechBadge";
 import type { IconType } from "react-icons";
 import {
-  SiPython,
+  // SiPython,
   SiFastapi,
   SiPostgresql,
   SiLangchain,
@@ -42,7 +43,7 @@ const experiences: ExperienceItem[] = [
       "Developed Python-based business solutions, web applications, Odoo modules, database integrations, and automation workflows while supporting project delivery and mentoring interns.",
     logoSrc: "/img/esdi.webp",
     tech: [
-      { name: "Python", icon: SiPython, brandColor: "#3776AB" },
+      // { name: "Python", icon: SiPython, brandColor: "#3776AB" },
       { name: "Odoo", icon: SiOdoo, brandColor: "#714B67" },
       { name: "Flask", icon: SiFlask, brandColor: "#000000" },
       { name: "SQL", icon: SiMysql, brandColor: "#4479A1" },
@@ -114,14 +115,12 @@ function ExperienceCard({ exp }: { exp: ExperienceItem }) {
               const Icon = t.icon;
               return (
                 <li key={t.name} className="flex">
-                  <span className="inline-flex items-center gap-1.5 rounded-md border border-[#161616]/10 bg-white/80 px-2 py-0.8 text-[11px] font-medium text-[#161616]">
-                    <Icon
-                      className="h-3.5 w-3.5 shrink-0"
-                      style={{ color: t.brandColor }}
-                      aria-hidden="true"
-                    />
-                    <span>{t.name}</span>
-                  </span>
+                  <TechBadge
+                    name={t.name}
+                    icon={<Icon className="w-4 h-4 shrink-0" style={{ color: t.brandColor }} />}
+                    brandColor={t.brandColor}
+                    size="sm"
+                  />
                 </li>
               );
             })}
@@ -138,7 +137,7 @@ export default function Experience() {
       <SectionHeader
         // index="02"
         // kicker="Background & Track Record"
-        title="Professional Experience"
+        title="Experience"
         subtitle="Software engineering, AI system deployment, and infrastructure operations."
       />
 
