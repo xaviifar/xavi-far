@@ -73,15 +73,12 @@ export default function ChatPage() {
 
   return (
     <main className="relative min-h-screen bg-[#f3f3f1] text-[#161616]">
-      <div className="mx-auto flex min-h-screen w-full max-w-[840px] flex-col border-[#161616]/10 px-6 sm:border-x sm:px-12 md:px-16">
+      <div className="mx-auto flex min-h-screen w-full max-w-[840px] flex-col px-5 sm:px-10 md:px-14">
         <Header />
 
         {/* Header Section */}
         <div className="pt-12 pb-6">
-          <SectionHeader
-            title="Ask my AI"
-            subtitle="Explore my experience, projects and technical background through an AI-powered interface."
-          />
+          <SectionHeader title="Ask my AI" />
         </div>
 
         {/* Chat Area */}

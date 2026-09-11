@@ -25,27 +25,27 @@ interface ProjectDetail {
   link: string;
   image: string;
   bgImage?: string;
-  problem: string;
+  overview: string;
   architecture: string;
-  built: string;
+  engineering: string;
   technologies: { name: string; brandColor?: string; icon?: React.ReactNode }[];
-  result: string;
+  demonstrates: string;
 }
 
 const allProjects: ProjectDetail[] = [
   {
     id: "01",
     title: "AI Agent Platform",
-    subtitle: "Autonomous multi-agent orchestration system",
+    subtitle: "Multi-Agent Orchestration & Execution System",
     link: "https://github.com/xaviifar",
     image: "/img/orbhi.png",
     bgImage: "/back.jpg",
-    problem:
-      "Legacy workflow systems failed to automate complex data extraction and multi-step reasoning in real time, causing manual backlogs.",
+    overview:
+      "Autonomous multi-agent execution environment designed to coordinate specialized Python agents via deterministic routing loops, tool calling, and persistent session state.",
     architecture:
-      "Event-driven microservices architecture communicating via Redis message brokers with a central LangChain LLM orchestrator and FastAPI runtime.",
-    built:
-      "Engineered deterministic routing loops, integrated vector memory for dynamic context recall, and containerized deployment with Docker.",
+      "Event-driven microservices architecture communicating via Redis message brokers and task queues, orchestrating agent execution state and tool dispatch.",
+    engineering:
+      "Built deterministic tool-calling loops, integrated vector memory for context recall, structured output validation, and containerized deployment with Docker.",
     technologies: [
       {
         name: "Python",
@@ -78,22 +78,22 @@ const allProjects: ProjectDetail[] = [
         icon: <SiLangchain className="h-3.5 w-3.5 shrink-0" style={{ color: "#1C1C1C" }} />,
       },
     ],
-    result:
-      "Reduced processing time by 85% and successfully automated over 10,000 weekly recurring tasks with high validation accuracy.",
+    demonstrates:
+      "Multi-agent orchestration, tool execution, state persistence, structured LLM outputs, containerized microservices.",
   },
   {
     id: "02",
     title: "BOE RAG Retrieval System",
-    subtitle: "Enterprise semantic search & knowledge retrieval over Spanish Official State Gazette",
+    subtitle: "Semantic search & knowledge retrieval over Spanish Official State Gazette",
     link: "https://github.com/xaviifar",
-    image: "/portfolio.jpg",
+    image: "/img/rag.jpg",
     bgImage: "/back.jpg",
-    problem:
-      "Technical teams spent over 2 hours daily searching for specific architectural clauses and compliance standards across thousands of PDFs.",
+    overview:
+      "Semantic search and knowledge retrieval pipeline indexing Spanish Official State Gazette (BOE) legal documents, combining sliding-window chunking, dense vector embeddings, and hybrid BM25 retrieval.",
     architecture:
-      "Vector database cluster coupled with an asynchronous ingestion pipeline for document parsing, semantic chunking, and embedding generation.",
-    built:
-      "Designed sliding-window chunking algorithms, integrated hybrid BM25 + dense vector ranking, and built conversational query streams.",
+      "Asynchronous document ingestion pipeline with Qdrant vector database storage, dense vector search, and BM25 sparse keyword ranking.",
+    engineering:
+      "Designed custom sliding-window document chunking algorithms, integrated cross-encoder reranking, and implemented conversational query streaming.",
     technologies: [
       {
         name: "Python",
@@ -126,88 +126,21 @@ const allProjects: ProjectDetail[] = [
         icon: <SiTailwindcss className="h-3.5 w-3.5 shrink-0" style={{ color: "#06B6D4" }} />,
       },
     ],
-    result:
-      "Achieved 96% retrieval accuracy and cut document search time down to sub-second queries for active analyst teams.",
-  },
-];
-
-interface CertificationItem {
-  id: string;
-  title: string;
-  issuer: string;
-  date: string;
-  credentialId: string;
-  logoSrc?: string;
-  icon?: IconType;
-  brandColor?: string;
-  skills: string[];
-}
-
-const certifications: CertificationItem[] = [
-  {
-    id: "01",
-    title: "Microsoft Certified: Azure AI Fundamentals (AI-900 / AI-901)",
-    issuer: "Microsoft",
-    date: "Verified Certification",
-    credentialId: "MICROSOFT-AI-901",
-    icon: VscAzure,
-    brandColor: "#0078D4",
-    skills: ["Azure OpenAI", "Cognitive Services", "Machine Learning", "Computer Vision", "NLP"],
-  },
-  {
-    id: "02",
-    title: "Microsoft Certified: Azure Fundamentals (AZ-900)",
-    issuer: "Microsoft",
-    date: "Verified Certification",
-    credentialId: "MICROSOFT-AZ-900",
-    icon: VscAzure,
-    brandColor: "#0078D4",
-    skills: ["Azure Cloud", "Cloud Architecture", "Security & Compliance", "Azure Services"],
-  },
-  {
-    id: "03",
-    title: "MSc Artificial Intelligence & Big Data",
-    issuer: "Centre Estudis Monlau",
-    date: "2025 — 2026",
-    credentialId: "MONLAU-AI-2026-XF",
-    logoSrc: "/img/monlau.jpg",
-    skills: ["Deep Learning", "Spark", "Kafka", "Neural Architectures"],
-  },
-  {
-    id: "04",
-    title: "Cross-Platform Application Development (DAM)",
-    issuer: "Centre Estudis Monlau",
-    date: "2025 — 2026",
-    credentialId: "MONLAU-DAM-2026-XF",
-    logoSrc: "/img/monlau.jpg",
-    skills: ["Full-Stack", "Databases", "Distributed Systems"],
-  },
-  {
-    id: "05",
-    title: "BSc in Computer Engineering",
-    issuer: "Universitat de Lleida",
-    date: "Academic Background",
-    credentialId: "UDL-ENG-XF",
-    logoSrc: "/img/udl.jpg",
-    skills: ["Algorithms", "Data Structures", "OS Architecture"],
+    demonstrates:
+      "Hybrid retrieval (dense + sparse BM25), semantic search, vector indexing, document chunking pipelines.",
   },
 ];
 
 export default function ProjectsPage() {
   return (
-    <main className="min-h-screen bg-[#f3f3f1] text-[#161616] bg-grid-structural">
-      {/* Master Container ("Prathm Structural Grid") */}
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[840px] flex-col border-[#161616]/10 bg-[#f3f3f1] px-5 sm:border-x sm:px-10 md:px-14 shadow-[0_0_50px_rgba(0,0,0,0.02)]">
+    <main className="min-h-screen bg-[#f3f3f1] text-[#161616]">
+      {/* Master Container */}
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[840px] flex-col px-5 sm:px-10 md:px-14">
         <Header />
 
-        {/* Section 01: Project Blueprints */}
-        <section className="relative py-7 sm:py-9 border-b border-[#161616]/10">
-          <SectionHeader
-            // index="01"
-            // kicker="Production Blueprints"
-            title="Projects"
-            subtitle="A comprehensive record of backend architectures, AI agent systems, and data pipelines built for production environments."
-          />
+        {/* Section 01: Projects */}
+        <section className="relative py-7 sm:py-9">
+          <SectionHeader title="Projects" />
 
           <div className="flex flex-col gap-12 sm:gap-14">
             {allProjects.map((project) => (
@@ -235,7 +168,7 @@ export default function ProjectsPage() {
                     alt=""
                     fill
                     sizes="(max-width: 840px) 100vw, 840px"
-                    className="object-cover opacity-25 blur-[1px]  transition-all duration-500 group-hover:scale-105 group-hover:opacity-35"
+                    className="object-cover opacity-25 blur-[1px] transition-all duration-500 group-hover:scale-105 group-hover:opacity-35"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/30 to-transparent" />
 
@@ -247,20 +180,20 @@ export default function ProjectsPage() {
                         alt={project.title}
                         fill
                         sizes="(max-width: 840px) 100vw, 840px"
-                        className="object-cover object-top  transition-all duration-500 "
+                        className="object-cover object-top transition-all duration-500"
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* Blueprint Metadata Table */}
+                {/* Technical Metadata Table */}
                 <div className="flex flex-col border-t border-[#161616]/10">
                   <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[130px_1fr] border-b border-[#161616]/10 py-3">
                     <span className="text-[9.5px] uppercase font-mono tracking-[0.1em] text-[#161616]/40 font-medium pt-0.5">
-                      Problem
+                      Overview
                     </span>
                     <span className="text-[13px] leading-[1.6] text-[#161616]/80">
-                      {project.problem}
+                      {project.overview}
                     </span>
                   </div>
 
@@ -278,7 +211,7 @@ export default function ProjectsPage() {
                       Engineering
                     </span>
                     <span className="text-[13px] leading-[1.6] text-[#161616]/80">
-                      {project.built}
+                      {project.engineering}
                     </span>
                   </div>
 
@@ -301,10 +234,10 @@ export default function ProjectsPage() {
 
                   <div className="grid grid-cols-[100px_1fr] sm:grid-cols-[130px_1fr] py-3">
                     <span className="text-[9.5px] uppercase font-mono tracking-[0.1em] text-[#161616]/40 font-medium pt-0.5">
-                      Result
+                      Demonstrates
                     </span>
                     <span className="text-[13px] font-medium leading-[1.6] text-[#161616]">
-                      {project.result}
+                      {project.demonstrates}
                     </span>
                   </div>
                 </div>
@@ -312,7 +245,7 @@ export default function ProjectsPage() {
             ))}
           </div>
         </section>
-        
+
         <Footer />
       </div>
     </main>

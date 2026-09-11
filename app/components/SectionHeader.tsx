@@ -14,7 +14,7 @@ export default function SectionHeader({
   className = "",
 }: SectionHeaderProps) {
   return (
-    <div className={`flex flex-col mb-6 sm:mb-7 ${className}`}>
+    <div className={`flex flex-col mb-5 sm:mb-6 ${className}`}>
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-col gap-1">
           {(kicker || index) && (
@@ -23,13 +23,10 @@ export default function SectionHeader({
               {kicker}
             </span>
           )}
-          <h2 className="text-[20px] sm:text-[23px] font-semibold tracking-[-0.035em] text-[#161616]">
+          <h2 className="text-[19px] sm:text-[22px] font-semibold tracking-[-0.035em] text-[#161616]">
             {title}
           </h2>
         </div>
-        <span className="font-mono text-[12px] text-[#161616]/25 select-none hidden sm:inline-block">
-          +
-        </span>
       </div>
 
       {subtitle && (
@@ -38,8 +35,8 @@ export default function SectionHeader({
         </p>
       )}
 
-      {/* Structural Hairline Divider with Cross Marker */}
-      <div className="relative mt-3 flex items-center">
+      {/* Hairline Divider */}
+      <div className="relative mt-2.5 flex items-center">
         <div className="h-[1px] w-full bg-[#161616]/10" />
       </div>
     </div>

@@ -27,7 +27,7 @@ export default function TechBadge({
       onClick={() => setIsHovered((prev) => !prev)}
       className={`group flex items-center ${
         isSm ? "h-8 px-2.5" : "h-10 px-3"
-      } rounded-[8px] border border-dashed border-[#161616]/20 hover:border-[#161616]/40 cursor-default transition-all duration-200 relative bg-[#f3f3f1] hover:bg-white/60 z-0 select-none ${className}`}
+      } rounded-[8px] border border-[#161616]/12 hover:border-[#161616]/30 cursor-default transition-all duration-200 relative bg-white/70 hover:bg-white shadow-[0_1px_2px_rgba(0,0,0,0.02)] z-0 select-none ${className}`}
     >
       {icon && (
         <span className="w-4 h-4 shrink-0 transition-transform duration-200 scale-100 flex items-center justify-center">

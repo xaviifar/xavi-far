@@ -74,7 +74,6 @@ export default function Skills() {
       <SectionHeader
         index="05"
         title="Technical Stack &amp; Focus"
-        subtitle="Tools I build with day-to-day, and core focus areas in AI engineering and data architecture."
       />
 
       <div className="mt-4">

@@ -84,10 +84,7 @@ const skills: SkillItem[] = [
 export default function Toolkit() {
   return (
     <section id="skills" className="relative border-b border-[#161616]/10 py-8 sm:py-10 scroll-mt-24">
-      <SectionHeader
-        title="Skills"
-        subtitle="Core tools, frameworks, and technologies I build with across AI, backend, and distributed systems."
-      />
+      <SectionHeader title="Skills" />
       <div className="flex flex-wrap gap-2 mt-4">
         {skills.map((skill) => {
           const Icon = skill.icon;

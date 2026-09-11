@@ -120,12 +120,7 @@ export default function SelectedWork() {
         +
       </span> */}
 
-      <SectionHeader
-        // index="01"
-        // kicker="Featured Work"
-        title="Selected Projects"
-        subtitle="AI systems, RAG pipelines, and distributed architectures built for production."
-      />
+      <SectionHeader title="Selected Projects" />
 
       {/* Prathm-Style 2-Column Grid (Enlarged Cards) */}
       <div className="relative mt-5">

@@ -6,7 +6,7 @@ import SectionHeader from "./SectionHeader";
 import TechBadge from "./TechBadge";
 import type { IconType } from "react-icons";
 import {
-  // SiPython,
+  SiPython,
   SiFastapi,
   SiPostgresql,
   SiLangchain,
@@ -38,17 +38,16 @@ const experiences: ExperienceItem[] = [
     role: "Python & Software Developer",
     company: "ESDI Systems",
     location: "Barcelona, Spain",
-    date: "Jan 2025 — Aug 2026",
+    date: "Jan 2025 — Present",
     shortDescription:
       "Developed Python-based business solutions, web applications, Odoo modules, database integrations, and automation workflows while supporting project delivery and mentoring interns.",
     logoSrc: "/img/esdi.webp",
     tech: [
-      // { name: "Python", icon: SiPython, brandColor: "#3776AB" },
+      { name: "Python", icon: SiPython, brandColor: "#3776AB" },
       { name: "Odoo", icon: SiOdoo, brandColor: "#714B67" },
       { name: "Flask", icon: SiFlask, brandColor: "#000000" },
       { name: "SQL", icon: SiMysql, brandColor: "#4479A1" },
       { name: "Selenium", icon: SiSelenium, brandColor: "#43B02A" },
-      { name: "Flutter", icon: SiFlutter, brandColor: "#2496ed" },
       { name: "Docker", icon: SiDocker, brandColor: "#2496ed" },
     ],
   },
@@ -134,12 +133,7 @@ function ExperienceCard({ exp }: { exp: ExperienceItem }) {
 export default function Experience() {
   return (
     <section id="experience" className="relative py-8 sm:py-10">
-      <SectionHeader
-        // index="02"
-        // kicker="Background & Track Record"
-        title="Experience"
-        subtitle="Software engineering, AI system deployment, and infrastructure operations."
-      />
+      <SectionHeader title="Experience" />
 
       <div className="flex flex-col gap-6 mt-1">
         {experiences.map((exp) => (
