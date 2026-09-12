@@ -12,8 +12,7 @@ const navItems: NavItem[] = [
   { label: "Me", href: "/"},
   { label: "Experience", href: "/experience"},
   { label: "Projects", href: "/projects"},
-  // { label: "Skills", href: "/#skills"},
-  { label: "Ask AI", href: "/chat"},
+  // { label: "Ask AI", href: "/chat"},
 ];
 
 export default function Header() {

@@ -27,7 +27,7 @@ export default function Home() {
         <Toolkit />
 
         {/* Ask My AI Feature */}
-        <AskAICallout />
+        {/* <AskAICallout /> */}
 
         {/* High-Impact Editorial Footer */}
         <Footer />
