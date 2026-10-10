@@ -238,6 +238,7 @@ export default function Hero() {
         {/* Resume CV */}
         <a
           href="/Xavi_Far_CV.pdf"
+          download="Xavi_Far_CV.pdf"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Resume"

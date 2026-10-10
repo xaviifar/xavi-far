@@ -7,6 +7,7 @@ import Education from "./components/Education";
 import TechStack from "./components/TechStack";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import AiChatbot from "./components/AiChatbot";
 
 export default function Home() {
   return (
@@ -38,6 +39,9 @@ export default function Home() {
 
         {/* Pixel Art Footer */}
         <Footer />
+
+        {/* Interactive Grok / Coucou AI Chatbot */}
+        <AiChatbot />
       </div>
     </main>
   );

@@ -80,7 +80,6 @@ function generateInitialData(): { initialDays: Activity[]; initialTotal: number 
 
 export default function ActivitySection() {
   const { lang } = useLanguage();
-  const [view, setView] = useState<"github" | "systems">("github");
   const isDark = useSyncExternalStore(subscribeDark, getSnapshotDark, getServerSnapshotDark);
 
   const { initialDays, initialTotal } = useMemo(() => generateInitialData(), []);
@@ -116,26 +115,6 @@ export default function ActivitySection() {
     };
   }, []);
 
-  // Generate systems / agent workload view if toggled
-  const activeData = useMemo(() => {
-    if (view === "github") return contributions;
-    // Systems view shows consistent operational runs
-    return contributions.map((day) => {
-      const modCount = day.count > 0 ? day.count + 2 : (day.date.charCodeAt(day.date.length - 1) % 4);
-      const modLevel = modCount > 6 ? 4 : modCount > 3 ? 3 : modCount > 1 ? 2 : modCount > 0 ? 1 : 0;
-      return {
-        ...day,
-        count: modCount,
-        level: modLevel,
-      };
-    });
-  }, [view, contributions]);
-
-  const activeTotal = useMemo(() => {
-    if (view === "github") return totalCount;
-    return activeData.reduce((acc, curr) => acc + curr.count, 0);
-  }, [view, totalCount, activeData]);
-
   // Color tokens matching reference light and dark palettes
   const calendarTheme = {
     light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
@@ -152,27 +131,6 @@ export default function ActivitySection() {
         <p className="font-mono text-[15px] text-ink-muted">
           <span className="text-ink-faint">#</span> {lang === "es" ? "actividad" : "activity"}
         </p>
-        <div className="flex items-center gap-2 font-mono text-[13px]">
-          <button
-            type="button"
-            onClick={() => setView("github")}
-            className={`transition-colors cursor-pointer ${
-              view === "github" ? "text-ink font-medium" : "text-ink-muted hover:text-ink"
-            }`}
-          >
-            github
-          </button>
-          <span className="text-ink-faint">/</span>
-          <button
-            type="button"
-            onClick={() => setView("systems")}
-            className={`transition-colors cursor-pointer ${
-              view === "systems" ? "text-ink font-medium" : "text-ink-muted hover:text-ink"
-            }`}
-          >
-            {lang === "es" ? "sistemas" : "systems"}
-          </button>
-        </div>
       </div>
 
       {/* Real Activity Calendar using react-activity-calendar */}
@@ -181,7 +139,7 @@ export default function ActivitySection() {
           <div className="w-full overflow-x-auto sm:overflow-visible no-scrollbar">
             <div className="min-w-[680px] sm:min-w-0 w-full flex justify-center">
               <ActivityCalendar
-                data={activeData}
+                data={contributions}
                 blockSize={10.5}
                 blockMargin={2.5}
                 blockRadius={2}
@@ -219,7 +177,7 @@ export default function ActivitySection() {
           {/* Submissions & Legend Row matching reference */}
           <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-[11.5px] tracking-wide text-ink-muted select-none mt-2">
             <div className="text-ink-muted uppercase tracking-wider">
-              <span className="font-semibold text-ink">{activeTotal}</span>{" "}
+              <span className="font-semibold text-ink">{totalCount}</span>{" "}
               {lang === "es" ? "CONTRIBUCIONES · 2025–26" : "CONTRIBUTIONS · 2025–26"}
             </div>
             <div className="ml-auto flex items-center gap-1.5 uppercase tracking-wider">
