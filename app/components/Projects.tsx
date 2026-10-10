@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
 import {
@@ -27,8 +28,8 @@ interface ProjectItem {
   description: { en: string; es: string };
   ribbon: { en: string; es: string };
   image: string;
-  liveUrl?: string;
   githubUrl: string;
+  repoName?: string;
   stars: number;
   tech: { name: string; icon: React.ReactNode }[];
 }
@@ -45,10 +46,9 @@ const projects: ProjectItem[] = [
       en: "MULTI-AGENT",
       es: "MULTI-AGENTE",
     },
-    image: "/img/orbhi.png",
-    liveUrl: "https://github.com/xaviifar",
+    image: "/img/ai_agent_platform.svg",
     githubUrl: "https://github.com/xaviifar",
-    stars: 14,
+    stars: 2,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "FastAPI", icon: <SiFastapi className="w-[18px] h-[18px]" style={{ color: "#009688" }} /> },
@@ -70,9 +70,9 @@ const projects: ProjectItem[] = [
       es: "LANGGRAPH",
     },
     image: "/img/gmail_agent.svg",
-    liveUrl: "https://github.com/xaviifar",
-    githubUrl: "https://github.com/xaviifar",
-    stars: 9,
+    githubUrl: "https://github.com/xaviifar/email_agent",
+    repoName: "email_agent",
+    stars: 2,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "LangChain", icon: <SiLangchain className="w-[18px] h-[18px] text-ink" /> },
@@ -91,10 +91,10 @@ const projects: ProjectItem[] = [
       en: "RAG PIPELINE",
       es: "PIPELINE RAG",
     },
-    image: "/img/rag.jpg",
-    liveUrl: "https://github.com/xaviifar",
-    githubUrl: "https://github.com/xaviifar",
-    stars: 18,
+    image: "/img/boe_rag.svg",
+    githubUrl: "https://github.com/xaviifar/boe-rag",
+    repoName: "boe-rag",
+    stars: 3,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "Qdrant", icon: <SiQdrant className="w-[18px] h-[18px]" style={{ color: "#DC244C" }} /> },
@@ -114,10 +114,10 @@ const projects: ProjectItem[] = [
       en: "DEEP LEARNING",
       es: "DEEP LEARNING",
     },
-    image: "/img/mcdonalds_sentiment.png",
-    liveUrl: "https://github.com/xaviifar/mcdonalds-review-sentiment-analysis",
+    image: "/img/mcdonalds_sentiment.svg",
     githubUrl: "https://github.com/xaviifar/mcdonalds-review-sentiment-analysis",
-    stars: 7,
+    repoName: "mcdonalds-review-sentiment-analysis",
+    stars: 2,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "TensorFlow", icon: <SiTensorflow className="w-[18px] h-[18px]" style={{ color: "#FF6F00" }} /> },
@@ -137,9 +137,8 @@ const projects: ProjectItem[] = [
       es: "APP MÓVIL",
     },
     image: "/img/fourparty_preview.svg",
-    liveUrl: "https://github.com/xaviifar",
     githubUrl: "https://github.com/xaviifar",
-    stars: 6,
+    stars: 1,
     tech: [
       { name: "Kotlin", icon: <SiKotlin className="w-[18px] h-[18px]" style={{ color: "#7F52FF" }} /> },
       { name: "MySQL", icon: <SiMysql className="w-[18px] h-[18px]" style={{ color: "#4479A1" }} /> },
@@ -158,9 +157,8 @@ const projects: ProjectItem[] = [
       es: "PRODUCCIÓN",
     },
     image: "/img/odoo_automation.svg",
-    liveUrl: "https://github.com/xaviifar",
     githubUrl: "https://github.com/xaviifar",
-    stars: 11,
+    stars: 2,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "Odoo", icon: <SiOdoo className="w-[18px] h-[18px]" style={{ color: "#714B67" }} /> },
@@ -173,6 +171,39 @@ const projects: ProjectItem[] = [
 
 export default function Projects() {
   const { lang } = useLanguage();
+  const [liveStars, setLiveStars] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    async function fetchStars() {
+      try {
+        const res = await fetch("https://api.github.com/users/xaviifar/repos");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!isCancelled && Array.isArray(data)) {
+          const map: Record<string, number> = {};
+          data.forEach((repo: { name: string; stargazers_count: number }) => {
+            projects.forEach((p) => {
+              if (p.repoName && p.repoName === repo.name && repo.stargazers_count > 0) {
+                map[p.id] = repo.stargazers_count;
+              }
+            });
+          });
+          if (Object.keys(map).length > 0) {
+            setLiveStars((prev) => ({ ...prev, ...map }));
+          }
+        }
+      } catch {
+        // keep realistic fallback counts
+      }
+    }
+
+    fetchStars();
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   return (
     <section id="projects" className="scroll-mt-14 sm:scroll-mt-16 w-full pt-6 pb-10 sm:pt-8 sm:pb-12">
@@ -189,10 +220,10 @@ export default function Projects() {
             {/* Top Media aspect-[16/10] */}
             <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-neutral-100 dark:bg-neutral-900">
               <a
-                href={project.liveUrl || project.githubUrl}
+                href={project.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`Open ${project.title}`}
+                aria-label={`Open ${project.title} on GitHub`}
                 className="block h-full w-full cursor-pointer relative"
               >
                 <Image
@@ -219,43 +250,17 @@ export default function Projects() {
                   {project.title}
                 </h3>
 
-                <div className="flex shrink-0 items-center gap-4">
-                  {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open ${project.title} live demo`}
-                      className="group/live flex items-center gap-1 text-[13px] font-medium text-ink-muted transition-colors duration-200 hover:text-ink cursor-pointer"
-                    >
-                      {lang === "es" ? "Demo" : "Live"}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-arrow-up-right h-3.5 w-3.5 transition-transform duration-200 ease-out group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5"
-                      >
-                        <path d="M7 7h10v10" />
-                        <path d="M7 17 17 7" />
-                      </svg>
-                    </a>
-                  )}
-
+                {/* GitHub link with realistic star count matching vinitpatil */}
+                <div className="flex shrink-0 items-center">
                   <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`View ${project.title} on GitHub`}
-                    title={`${project.stars} stars on GitHub`}
+                    title={`${liveStars[project.id] ?? project.stars} stars on GitHub`}
                     className="group/repo inline-flex items-center gap-1.5 text-ink-muted transition-colors duration-200 hover:text-ink cursor-pointer"
                   >
-                    <svg viewBox="0 0 512 512" fill="currentColor" className="h-[16px] w-[16px] transition-transform duration-200 ease-out group-hover/repo:scale-105">
+                    <svg viewBox="0 0 512 512" fill="currentColor" className="h-[15px] w-[15px] transition-transform duration-200 ease-out group-hover/repo:scale-110">
                       <path
                         fillRule="evenodd"
                         clipRule="evenodd"
@@ -278,7 +283,7 @@ export default function Projects() {
                         <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
                       </svg>
                       <span className="tabular-nums font-mono font-medium opacity-70">
-                        {project.stars}
+                        {liveStars[project.id] ?? project.stars}
                       </span>
                     </span>
                   </a>

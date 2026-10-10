@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="ragBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141118"/>
+      <stop offset="100%" stop-color="#09080c"/>
+    </linearGradient>
+    <linearGradient id="ragGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DC244C" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#017CEE" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.25"/>
+    </linearGradient>
+    <pattern id="gridRag" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#ragBg)"/>
+  <rect width="800" height="500" fill="url(#gridRag)"/>
+
+  <!-- Top Ambient Glow -->
+  <rect x="160" y="20" width="480" height="130" rx="65" fill="url(#ragGlow)" filter="blur(40px)"/>
+
+  <!-- Main Frame Container -->
+  <rect x="65" y="45" width="670" height="410" rx="14" fill="#110e15" stroke="#26202c" stroke-width="1.5"/>
+
+  <!-- Header Bar -->
+  <rect x="65" y="45" width="670" height="46" rx="14" fill="#18141e"/>
+  <rect x="65" y="77" width="670" height="14" fill="#18141e"/>
+  <line x1="65" y1="91" x2="735" y2="91" stroke="#26202c" stroke-width="1"/>
+
+  <!-- Window Dots -->
+  <circle cx="93" cy="68" r="5" fill="#EF4444" opacity="0.8"/>
+  <circle cx="111" cy="68" r="5" fill="#F59E0B" opacity="0.8"/>
+  <circle cx="129" cy="68" r="5" fill="#10B981" opacity="0.8"/>
+
+  <!-- Window Title -->
+  <text x="400" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#8A8A8A" text-anchor="middle">boe-rag-pipeline · qdrant-hybrid-search.py</text>
+
+  <!-- Status Pill -->
+  <rect x="625" y="59" width="95" height="20" rx="10" fill="#DC244C" fill-opacity="0.15" stroke="#DC244C" stroke-opacity="0.3"/>
+  <circle cx="637" cy="69" r="3" fill="#DC244C"/>
+  <text x="646" y="73" font-family="ui-monospace, monospace" font-size="10" fill="#f87171" font-weight="600">QDRANT CLUSTER</text>
+
+  <!-- Left Side: Ingestion & Vector Index -->
+  <g transform="translate(85, 110)">
+    <rect width="275" height="320" rx="8" fill="#15121b" stroke="#26202c" stroke-width="1"/>
+    <text x="16" y="26" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#f87171">BOE DOCUMENT INGESTION</text>
+
+    <!-- Source Doc -->
+    <rect x="14" y="42" width="247" height="48" rx="6" fill="#1d1824" stroke="#DC244C" stroke-width="1.2"/>
+    <circle cx="34" cy="66" r="10" fill="#DC244C" fill-opacity="0.2"/>
+    <text x="34" y="70" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#f87171" text-anchor="middle">📄</text>
+    <text x="54" y="60" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#f3f4f6">Boletín Oficial del Estado</text>
+    <text x="54" y="75" font-family="-apple-system, sans-serif" font-size="9.5" fill="#9ca3af">Raw XML/PDF Gazette parser</text>
+
+    <path d="M 137 90 L 137 105" stroke="#374151" stroke-width="1.5"/>
+
+    <!-- Chunking Step -->
+    <rect x="14" y="105" width="247" height="46" rx="6" fill="#191520" stroke="#26202c" stroke-width="1"/>
+    <circle cx="34" cy="128" r="9" fill="#017CEE" fill-opacity="0.2"/>
+    <text x="54" y="122" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#f3f4f6">Sliding-Window Chunking</text>
+    <text x="54" y="137" font-family="-apple-system, sans-serif" font-size="9.5" fill="#60a5fa">500 tokens · 15% overlap</text>
+
+    <!-- Vector Embeddings -->
+    <rect x="14" y="160" width="247" height="46" rx="6" fill="#191520" stroke="#26202c" stroke-width="1"/>
+    <circle cx="34" cy="183" r="9" fill="#10B981" fill-opacity="0.2"/>
+    <text x="54" y="177" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#f3f4f6">Dense Embeddings (bge-m3)</text>
+    <text x="54" y="192" font-family="-apple-system, sans-serif" font-size="9.5" fill="#34d399">1024-dim dense representation</text>
+
+    <!-- Qdrant Vector Collection -->
+    <rect x="14" y="215" width="247" height="46" rx="6" fill="#191520" stroke="#26202c" stroke-width="1"/>
+    <circle cx="34" cy="238" r="9" fill="#DC244C" fill-opacity="0.2"/>
+    <text x="54" y="232" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#f3f4f6">Qdrant Vector Database</text>
+    <text x="54" y="247" font-family="-apple-system, sans-serif" font-size="9.5" fill="#f87171">HNSW index · Cosine distance</text>
+
+    <!-- Bottom summary -->
+    <rect x="14" y="272" width="247" height="34" rx="6" fill="#1d1824"/>
+    <text x="137" y="293" font-family="ui-monospace, monospace" font-size="10" fill="#cbd5e1" text-anchor="middle">Airflow DAG Scheduled · 24/7 Updates</text>
+  </g>
+
+  <!-- Right Side: Hybrid Reranking Terminal -->
+  <g transform="translate(380, 110)">
+    <rect width="335" height="320" rx="8" fill="#0d0a11" stroke="#26202c" stroke-width="1"/>
+    <text x="18" y="26" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#38bdf8">HYBRID RETRIEVAL &amp; RERANKING</text>
+
+    <text x="18" y="54" font-family="ui-monospace, monospace" font-size="10" fill="#f43f5e">❯ rag.query("subvenciones energía solar 2024")</text>
+    <text x="18" y="76" font-family="ui-monospace, monospace" font-size="10" fill="#6b7280">[Step 1] Dense search: Qdrant top-25 (0.89 cosine)</text>
+    <text x="18" y="98" font-family="ui-monospace, monospace" font-size="10" fill="#6b7280">[Step 2] Sparse search: BM25 keyword top-25</text>
+    <text x="18" y="120" font-family="ui-monospace, monospace" font-size="10" fill="#a855f7">⚡ Reciprocal Rank Fusion (RRF) merged 42 chunks</text>
+    <text x="18" y="142" font-family="ui-monospace, monospace" font-size="10" fill="#10b981">✓ Cross-Encoder reranker score: 0.942 relevance</text>
+    <text x="18" y="164" font-family="ui-monospace, monospace" font-size="10" fill="#38bdf8">→ Citation: BOE-A-2024-1192, Artículo 4.2</text>
+    <text x="18" y="186" font-family="ui-monospace, monospace" font-size="10" fill="#9ca3af">[Context synthesized into LLM prompt via FastAPI]</text>
+    <text x="18" y="208" font-family="ui-monospace, monospace" font-size="10" fill="#10b981">✓ Hallucination check passed: 100% grounded in law</text>
+    <text x="18" y="230" font-family="ui-monospace, monospace" font-size="10" fill="#6b7280">Query duration: 94ms end-to-end</text>
+
+    <!-- Performance Card -->
+    <rect x="18" y="252" width="299" height="52" rx="6" fill="#17131e" stroke="#26202c" stroke-width="1"/>
+    <g transform="translate(30, 268)">
+      <text x="0" y="12" font-family="ui-monospace, monospace" font-size="9" fill="#9ca3af">CHUNKS</text>
+      <text x="0" y="26" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#f3f4f6">140,000+</text>
+    </g>
+    <g transform="translate(130, 268)">
+      <text x="0" y="12" font-family="ui-monospace, monospace" font-size="9" fill="#9ca3af">PRECISION</text>
+      <text x="0" y="26" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#34d399">96.4% MAP</text>
+    </g>
+    <g transform="translate(230, 268)">
+      <text x="0" y="12" font-family="ui-monospace, monospace" font-size="9" fill="#9ca3af">LATENCY</text>
+      <text x="0" y="26" font-family="ui-monospace, monospace" font-size="12" font-weight="700" fill="#38bdf8">&lt; 100ms</text>
+    </g>
+  </g>
+</svg>
