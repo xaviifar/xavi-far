@@ -26,7 +26,6 @@ interface ProjectItem {
   id: string;
   title: string;
   description: { en: string; es: string };
-  ribbon: { en: string; es: string };
   image: string;
   githubUrl: string;
   repoName?: string;
@@ -42,13 +41,9 @@ const projects: ProjectItem[] = [
       en: "Autonomous multi-agent orchestration system exploring deterministic tool-calling loops, Redis task queues, vector session memory, and containerized deployment with Docker.",
       es: "Sistema de orquestación multi-agente autónomo explorando bucles deterministas de tool-calling, colas Redis, memoria vectorial de sesión y despliegue en contenedores Docker.",
     },
-    ribbon: {
-      en: "MULTI-AGENT",
-      es: "MULTI-AGENTE",
-    },
     image: "/img/ai_agent_platform.svg",
     githubUrl: "https://github.com/xaviifar",
-    stars: 2,
+    stars: 0,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "FastAPI", icon: <SiFastapi className="w-[18px] h-[18px]" style={{ color: "#009688" }} /> },
@@ -65,14 +60,10 @@ const projects: ProjectItem[] = [
       en: "AI-powered email assistant designed on LangGraph StateGraphs to understand, search, classify, and batch-triage messages with tool execution, OpenRouter LLMs, and ElevenLabs voice TTS.",
       es: "Asistente de correo con IA basado en StateGraphs de LangGraph para clasificar, buscar y organizar emails mediante ejecución de herramientas, LLMs de OpenRouter y síntesis por voz.",
     },
-    ribbon: {
-      en: "LANGGRAPH",
-      es: "LANGGRAPH",
-    },
     image: "/img/gmail_agent.svg",
     githubUrl: "https://github.com/xaviifar/email_agent",
     repoName: "email_agent",
-    stars: 2,
+    stars: 0,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "LangChain", icon: <SiLangchain className="w-[18px] h-[18px] text-ink" /> },
@@ -87,14 +78,10 @@ const projects: ProjectItem[] = [
       en: "Semantic search & legal document knowledge retrieval pipeline over Spanish Official State Gazette records combining sliding-window chunking, Qdrant vector database, and BM25 hybrid reranking.",
       es: "Pipeline de búsqueda semántica y recuperación documental sobre el Boletín Oficial del Estado combinando chunking por ventana deslizante, base vectorial Qdrant y reordenamiento híbrido BM25.",
     },
-    ribbon: {
-      en: "RAG PIPELINE",
-      es: "PIPELINE RAG",
-    },
     image: "/img/boe_rag.svg",
     githubUrl: "https://github.com/xaviifar/boe-rag",
     repoName: "boe-rag",
-    stars: 3,
+    stars: 0,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "Qdrant", icon: <SiQdrant className="w-[18px] h-[18px]" style={{ color: "#DC244C" }} /> },
@@ -110,14 +97,10 @@ const projects: ProjectItem[] = [
       en: "NLP classification and customer sentiment analysis on Barcelona reviews, comparing custom lexicon-based logistic regression against Deep Learning TF-IDF Neural Networks with ROC curve evaluation.",
       es: "Clasificación NLP y análisis de sentimiento de clientes en reseñas de Barcelona, comparando regresión logística léxica frente a redes neuronales TF-IDF evaluadas con curvas ROC.",
     },
-    ribbon: {
-      en: "DEEP LEARNING",
-      es: "DEEP LEARNING",
-    },
     image: "/img/mcdonalds_sentiment.svg",
     githubUrl: "https://github.com/xaviifar/mcdonalds-review-sentiment-analysis",
     repoName: "mcdonalds-review-sentiment-analysis",
-    stars: 2,
+    stars: 0,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "TensorFlow", icon: <SiTensorflow className="w-[18px] h-[18px]" style={{ color: "#FF6F00" }} /> },
@@ -132,13 +115,9 @@ const projects: ProjectItem[] = [
       en: "Event coordination and party supply marketplace Android mobile application featuring native catalog discovery, real-time cart, item favorites, and backend MySQL database synchronization.",
       es: "Aplicación móvil Android para coordinación y compra de suministros para eventos con catálogo interactivo, carrito en tiempo real, favoritos y sincronización con MySQL.",
     },
-    ribbon: {
-      en: "MOBILE APP",
-      es: "APP MÓVIL",
-    },
     image: "/img/fourparty_preview.svg",
     githubUrl: "https://github.com/xaviifar",
-    stars: 1,
+    stars: 0,
     tech: [
       { name: "Kotlin", icon: <SiKotlin className="w-[18px] h-[18px]" style={{ color: "#7F52FF" }} /> },
       { name: "MySQL", icon: <SiMysql className="w-[18px] h-[18px]" style={{ color: "#4479A1" }} /> },
@@ -152,13 +131,9 @@ const projects: ProjectItem[] = [
       en: "Production business automation suite engineered at ESDI Systems, uniting custom Odoo ERP models, Selenium scraping bots, SQL reconciliation, and OpenRouter LLM parsing.",
       es: "Suite de automatización empresarial desarrollada en ESDI Systems que integra módulos Odoo ERP personalizados, bots de scraping con Selenium, conciliación SQL y análisis con LLMs.",
     },
-    ribbon: {
-      en: "PRODUCTION",
-      es: "PRODUCCIÓN",
-    },
     image: "/img/odoo_automation.svg",
     githubUrl: "https://github.com/xaviifar",
-    stars: 2,
+    stars: 0,
     tech: [
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
       { name: "Odoo", icon: <SiOdoo className="w-[18px] h-[18px]" style={{ color: "#714B67" }} /> },
@@ -185,17 +160,15 @@ export default function Projects() {
           const map: Record<string, number> = {};
           data.forEach((repo: { name: string; stargazers_count: number }) => {
             projects.forEach((p) => {
-              if (p.repoName && p.repoName === repo.name && repo.stargazers_count > 0) {
+              if (p.repoName && p.repoName === repo.name) {
                 map[p.id] = repo.stargazers_count;
               }
             });
           });
-          if (Object.keys(map).length > 0) {
-            setLiveStars((prev) => ({ ...prev, ...map }));
-          }
+          setLiveStars(map);
         }
       } catch {
-        // keep realistic fallback counts
+        // network fallback
       }
     }
 
@@ -212,103 +185,105 @@ export default function Projects() {
       </p>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {projects.map((project) => (
-          <article
-            key={project.id}
-            className="group relative flex flex-col overflow-hidden rounded-xl border border-border transition-colors duration-300 hover:border-neutral-400 dark:hover:border-neutral-700 bg-surface"
-          >
-            {/* Top Media aspect-[16/10] */}
-            <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-neutral-100 dark:bg-neutral-900">
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Open ${project.title} on GitHub`}
-                className="block h-full w-full cursor-pointer relative"
-              >
-                <Image
-                  src={project.image}
-                  alt={`${project.title} preview`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 360px"
-                  className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-[1.03]"
-                />
-              </a>
-
-              {/* Corner Ribbon */}
-              <div className="absolute top-0 right-0 z-20 h-28 w-28 overflow-hidden pointer-events-none">
-                <div className="absolute top-[24px] -right-[34px] w-[140px] rotate-45 py-1 text-center font-mono text-[10px] sm:text-[10.5px] font-semibold tracking-wider bg-amber-400 text-neutral-950 border-y-2 border-dotted border-black/55 shadow-xs select-none">
-                  {project.ribbon[lang]}
-                </div>
+        {projects.map((project) => {
+          const stars = liveStars[project.id] ?? project.stars ?? 0;
+          return (
+            <article
+              key={project.id}
+              className="group relative flex flex-col overflow-hidden rounded-xl border border-border transition-colors duration-300 hover:border-neutral-400 dark:hover:border-neutral-700 bg-surface"
+            >
+              {/* Top Media aspect-[16/10] */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-border bg-neutral-100 dark:bg-neutral-900">
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${project.title} on GitHub`}
+                  className="block h-full w-full cursor-pointer relative"
+                >
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 360px"
+                    className="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-[1.03]"
+                  />
+                </a>
               </div>
-            </div>
 
-            {/* Content Body */}
-            <div className="flex flex-1 flex-col gap-3 p-5">
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-[16px] font-medium tracking-[-0.01em] text-ink">
-                  {project.title}
-                </h3>
+              {/* Content Body */}
+              <div className="flex flex-1 flex-col gap-3 p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-[16px] font-medium tracking-[-0.01em] text-ink">
+                    {project.title}
+                  </h3>
 
-                {/* GitHub link with realistic star count matching vinitpatil */}
-                <div className="flex shrink-0 items-center">
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`View ${project.title} on GitHub`}
-                    title={`${liveStars[project.id] ?? project.stars} stars on GitHub`}
-                    className="group/repo inline-flex items-center gap-1.5 text-ink-muted transition-colors duration-200 hover:text-ink cursor-pointer"
-                  >
-                    <svg viewBox="0 0 512 512" fill="currentColor" className="h-[15px] w-[15px] transition-transform duration-200 ease-out group-hover/repo:scale-110">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M256 6.3C114.6 6.3 0 120.9 0 262.3c0 113.3 73.3 209 175 242.9 12.8 2.2 17.6-5.4 17.6-12.2 0-6.1-.3-26.2-.3-47.7-64.3 11.8-81-15.7-86.1-30.1-2.9-7.4-15.4-30.1-26.2-36.2-9-4.8-21.8-16.6-.3-17 20.2-.3 34.6 18.6 39.4 26.2 23 38.7 59.8 27.8 74.6 21.1 2.2-16.6 9-27.8 16.3-34.2-57-6.4-116.5-28.5-116.5-126.4 0-27.8 9.9-50.9 26.2-68.8-2.6-6.4-11.5-32.6 2.6-67.8 0 0 21.4-6.7 70.4 26.2 20.5-5.8 42.2-8.6 64-8.6s43.5 2.9 64 8.6c49-33.3 70.4-26.2 70.4-26.2 14.1 35.2 5.1 61.4 2.6 67.8 16.3 17.9 26.2 40.6 26.2 68.8 0 98.2-59.8 120-116.8 126.4 9.3 8 17.3 23.4 17.3 47.4 0 34.2-.3 61.8-.3 70.4 0 6.7 4.8 14.7 17.6 12.2C438.7 471.3 512 375.3 512 262.3c0-141.4-114.6-256-256-256"
-                      />
-                    </svg>
-                    <span className="inline-flex items-center gap-1 font-mono text-[12px] text-ink-muted transition-colors duration-200 group-hover/repo:text-ink">
+                  {/* GitHub link with realistic star count matching vinitpatil */}
+                  <div className="flex shrink-0 items-center">
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`View ${project.title} on GitHub`}
+                      title={stars > 0 ? `${stars} star${stars === 1 ? "" : "s"} on GitHub` : `View ${project.title} on GitHub`}
+                      className="group/repo inline-flex items-center gap-1.5 text-ink-muted transition-colors duration-200 hover:text-ink cursor-pointer"
+                    >
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-3 w-3 fill-current opacity-70 transition-opacity duration-200 group-hover/repo:opacity-100"
+                        viewBox="0 0 512 512"
+                        fill="currentColor"
+                        className="h-[15px] w-[15px] transition-transform duration-200 ease-out group-hover/repo:scale-110"
                       >
-                        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M256 6.3C114.6 6.3 0 120.9 0 262.3c0 113.3 73.3 209 175 242.9 12.8 2.2 17.6-5.4 17.6-12.2 0-6.1-.3-26.2-.3-47.7-64.3 11.8-81-15.7-86.1-30.1-2.9-7.4-15.4-30.1-26.2-36.2-9-4.8-21.8-16.6-.3-17 20.2-.3 34.6 18.6 39.4 26.2 23 38.7 59.8 27.8 74.6 21.1 2.2-16.6 9-27.8 16.3-34.2-57-6.4-116.5-28.5-116.5-126.4 0-27.8 9.9-50.9 26.2-68.8-2.6-6.4-11.5-32.6 2.6-67.8 0 0 21.4-6.7 70.4 26.2 20.5-5.8 42.2-8.6 64-8.6s43.5 2.9 64 8.6c49-33.3 70.4-26.2 70.4-26.2 14.1 35.2 5.1 61.4 2.6 67.8 16.3 17.9 26.2 40.6 26.2 68.8 0 98.2-59.8 120-116.8 126.4 9.3 8 17.3 23.4 17.3 47.4 0 34.2-.3 61.8-.3 70.4 0 6.7 4.8 14.7 17.6 12.2C438.7 471.3 512 375.3 512 262.3c0-141.4-114.6-256-256-256"
+                        />
                       </svg>
-                      <span className="tabular-nums font-mono font-medium opacity-70">
-                        {liveStars[project.id] ?? project.stars}
-                      </span>
+                      {stars > 0 && (
+                        <span className="inline-flex items-center gap-1 font-mono text-[12px] text-ink-muted transition-colors duration-200 group-hover/repo:text-ink">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-3 w-3 fill-current opacity-70 transition-opacity duration-200 group-hover/repo:opacity-100"
+                          >
+                            <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+                          </svg>
+                          <span className="tabular-nums font-mono font-medium opacity-70">
+                            {stars}
+                          </span>
+                        </span>
+                      )}
+                    </a>
+                  </div>
+                </div>
+
+                <p className="text-[14px] leading-[1.6] text-ink-muted">
+                  {project.description[lang]}
+                </p>
+
+                {/* Tech Icons Footer */}
+                <div className="mt-auto flex items-center gap-2.5 pt-3">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t.name}
+                      title={t.name}
+                      className="inline-flex items-center justify-center transition-transform duration-200 ease-out hover:-translate-y-0.5 cursor-default"
+                    >
+                      {t.icon}
                     </span>
-                  </a>
+                  ))}
                 </div>
               </div>
-
-              <p className="text-[14px] leading-[1.6] text-ink-muted">
-                {project.description[lang]}
-              </p>
-
-              {/* Tech Icons Footer */}
-              <div className="mt-auto flex items-center gap-2.5 pt-3">
-                {project.tech.map((t) => (
-                  <span
-                    key={t.name}
-                    title={t.name}
-                    className="inline-flex items-center justify-center transition-transform duration-200 ease-out hover:-translate-y-0.5 cursor-default"
-                  >
-                    {t.icon}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </section>
   );
