@@ -4,8 +4,50 @@ import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 import { useLanguage } from "../context/LanguageContext";
 
+// Clear, easy-to-tap segmented language control
+function LanguageSwitcher({
+  lang,
+  setLang,
+}: {
+  lang: "en" | "es";
+  setLang: (lang: "en" | "es") => void;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label="Language selector"
+      className="inline-flex items-center rounded-lg border border-neutral-200/90 dark:border-neutral-800/90 bg-neutral-100/70 dark:bg-neutral-900/70 p-0.5 font-mono text-[11.5px] select-none"
+    >
+      <button
+        type="button"
+        onClick={() => setLang("en")}
+        aria-label="Switch to English"
+        className={`px-2.5 py-1 rounded-md transition-all duration-150 cursor-pointer ${
+          lang === "en"
+            ? "bg-card text-ink font-semibold shadow-xs"
+            : "text-ink-muted hover:text-ink font-normal"
+        }`}
+      >
+        EN
+      </button>
+      <button
+        type="button"
+        onClick={() => setLang("es")}
+        aria-label="Cambiar a Español"
+        className={`px-2.5 py-1 rounded-md transition-all duration-150 cursor-pointer ${
+          lang === "es"
+            ? "bg-card text-ink font-semibold shadow-xs"
+            : "text-ink-muted hover:text-ink font-normal"
+        }`}
+      >
+        ES
+      </button>
+    </div>
+  );
+}
+
 export default function Header() {
-  const { lang, toggleLang } = useLanguage();
+  const { lang, setLang } = useLanguage();
   const [activeSection, setActiveSection] = useState("home");
 
   const navLinks = [
@@ -46,51 +88,88 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full pt-8 pb-14 flex items-center justify-between">
-      <nav className="flex items-center gap-5 sm:gap-7 text-[13.5px] sm:text-[14px]">
-        {navLinks.map((link) => {
-          const isActive = activeSection === link.id;
-          return (
-            <a
-              key={link.id}
-              href={link.href}
-              className={`transition-colors duration-200 cursor-pointer ${
-                isActive
-                  ? "text-ink font-medium"
-                  : "text-ink-muted hover:text-ink font-normal"
-              }`}
-            >
-              {link.label}
-            </a>
-          );
-        })}
+    <header className="w-full pt-6 sm:pt-8 pb-10 sm:pb-14">
+      {/* Desktop Navigation (> 640px) */}
+      <div className="hidden sm:flex items-center justify-between w-full">
+        <nav className="flex items-center gap-6 sm:gap-7 text-[13.5px] sm:text-[14px]">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                className={`transition-colors duration-200 cursor-pointer ${
+                  isActive
+                    ? "text-ink font-medium"
+                    : "text-ink-muted hover:text-ink font-normal"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
 
-        {/* Ask AI navigation trigger */}
-        <button
-          type="button"
-          onClick={() => window.dispatchEvent(new CustomEvent("open-ai-chat"))}
-          className="inline-flex items-center gap-1.5 text-ink-muted hover:text-ink transition-colors cursor-pointer select-none"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span>{lang === "es" ? "Preguntar IA" : "Ask AI"}</span>
-        </button>
-      </nav>
+          {/* Ask AI navigation link (clean text, no dot) */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("open-ai-chat"))}
+            className="text-ink-muted hover:text-ink transition-colors duration-200 cursor-pointer select-none font-normal"
+          >
+            Ask AI
+          </button>
+        </nav>
 
-      <div className="flex items-center gap-2.5">
-        <button
-          type="button"
-          onClick={toggleLang}
-          aria-label="Switch language"
-          className="inline-flex items-center rounded-md border border-neutral-200/80 dark:border-neutral-800/80 bg-neutral-100/50 dark:bg-neutral-900/50 px-2 py-0.5 font-mono text-[11px] sm:text-[11.5px] transition-all hover:border-neutral-400 dark:hover:border-neutral-600 cursor-pointer select-none"
-        >
-          <span className={lang === "en" ? "text-ink font-semibold" : "text-ink-muted"}>EN</span>
-          <span className="text-ink-faint mx-1 font-normal">/</span>
-          <span className={lang === "es" ? "text-ink font-semibold" : "text-ink-muted"}>ES</span>
-        </button>
-        <ThemeToggle />
+        <div className="flex items-center gap-2.5">
+          <LanguageSwitcher lang={lang} setLang={setLang} />
+          <ThemeToggle />
+        </div>
+      </div>
+
+      {/* Mobile Navigation (<= 640px) */}
+      <div className="flex sm:hidden flex-col gap-3 w-full">
+        {/* Top row: Brand / home link & easy-to-tap controls */}
+        <div className="flex items-center justify-between w-full">
+          <a
+            href="#"
+            className="font-mono text-[13.5px] font-medium text-ink hover:text-ink-muted transition-colors tracking-tight"
+          >
+            xavi far
+          </a>
+
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher lang={lang} setLang={setLang} />
+            <ThemeToggle />
+          </div>
+        </div>
+
+        {/* Bottom row: Horizontal navigation links with smooth scrolling */}
+        <nav className="flex items-center gap-4 text-[13px] overflow-x-auto no-scrollbar py-1 text-ink-muted">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <a
+                key={link.id}
+                href={link.href}
+                className={`shrink-0 transition-colors duration-200 cursor-pointer ${
+                  isActive
+                    ? "text-ink font-medium"
+                    : "text-ink-muted hover:text-ink font-normal"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+
+          {/* Ask AI on mobile (clean text, no dot) */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("open-ai-chat"))}
+            className="shrink-0 text-ink-muted hover:text-ink transition-colors duration-200 cursor-pointer select-none font-normal"
+          >
+            Ask AI
+          </button>
+        </nav>
       </div>
     </header>
   );

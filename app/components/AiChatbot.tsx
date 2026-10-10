@@ -261,7 +261,7 @@ export default function AiChatbot() {
               </span>
             </div>
             <span className="text-[12.5px] sm:text-[13px] font-mono font-medium tracking-tight">
-              {lang === "es" ? "Preguntar a la IA" : "Ask AI"}
+              {lang === "es" ? "Preguntar IA" : "Ask AI"}
             </span>
             <span className="hidden sm:inline-block font-mono text-[10px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-ink-muted border border-border">
               coucou
@@ -275,7 +275,7 @@ export default function AiChatbot() {
         <div
           role="dialog"
           aria-label="AI Assistant"
-          className="fixed bottom-3 right-3 left-3 sm:left-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-[420px] h-[550px] max-h-[88vh] flex flex-col rounded-2xl bg-card border border-neutral-300 dark:border-neutral-700/90 shadow-2xl shadow-black/20 dark:shadow-black/60 overflow-hidden backdrop-blur-xl animate-in fade-in zoom-in-95 duration-200"
+          className="fixed bottom-3 right-3 left-3 sm:left-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-[420px] h-[550px] max-h-[82dvh] sm:max-h-[85vh] flex flex-col rounded-2xl bg-card border border-neutral-300 dark:border-neutral-700/90 shadow-2xl shadow-black/20 dark:shadow-black/60 overflow-hidden backdrop-blur-xl animate-in fade-in zoom-in-95 duration-200"
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-neutral-50/70 dark:bg-neutral-900/70 select-none">
