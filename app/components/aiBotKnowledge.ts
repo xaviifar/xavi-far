@@ -1,6 +1,6 @@
 /**
- * Knowledge base and Grok / Coucou conversational engine for Xavi Far's portfolio.
- * Tone: Witty, sharp, technical, charming, and strictly grounded in Xavi's real background.
+ * Knowledge base and Grok-style conversational engine for Xavi Far's portfolio.
+ * Tone: Witty, sharp, technical, and strictly grounded in Xavi's real background.
  */
 
 export interface ChatMessage {
@@ -29,9 +29,9 @@ export const INITIAL_SUGGESTIONS_ES = [
 
 export function getGreeting(lang: "en" | "es"): string {
   if (lang === "es") {
-    return "¡Coucou! 👋 Soy el alter-ego IA de Xavi Far — con el ingenio de Grok y entrenado en su arquitectura de sistemas, pipelines de agentes y commits. Pregúntame sobre sus proyectos de IA, stack técnico, experiencia o por qué deberías contratarlo antes de que otro equipo se te adelante.";
+    return "¡Hola! 👋 Soy el alter-ego IA de Xavi Far (modo Grok activado ⚡). Entrenado en su arquitectura de sistemas, pipelines de agentes y commits. Pregúntame sobre sus proyectos de IA, stack técnico, experiencia o por qué deberías contratarlo antes de que otro equipo se te adelante.";
   }
-  return "Coucou! 👋 I'm Xavi Far's AI alter-ego — think Grok's sharp wit meets an engineer who actually builds deterministic multi-agent architectures and debugs Redis queues. Ask me anything about his AI agents, tech stack, real experience, or why you should hire him.";
+  return "Hey! 👋 I'm Xavi Far's AI alter-ego (Grok mode active ⚡). Think sharp engineering wit meets a developer who actually builds deterministic multi-agent architectures and debugs Redis queues. Ask me anything about his AI agents, tech stack, real experience, or why you should hire him.";
 }
 
 interface IntentPattern {
@@ -85,7 +85,7 @@ const INTENTS: IntentPattern[] = [
     ],
     reply: (lang) =>
       lang === "es"
-        ? `**Plataforma Multi-Agente de IA** (Proyecto destacado de Xavi):\n\n• **¿Qué resuelve?** Orquestación robusta de múltiples agentes autónomos ejecutando herramientas en bucles deterministas.\n• **Arquitectura clave:** Colas asíncronas en **Redis** para decouplar tareas, **memoria vectorial** para retención de contexto a largo plazo y contención en **Docker**.\n• **El toque de ingeniería:** No confía a ciegas en LLMs no estructurados; implementa validación estricta de esquemas de llamadas a herramientas (tool-calling loops) para evitar ejecuciones fallidas o bucles infinitos.\n\nPuedes ver el código y arquitectura en su [GitHub](https://github.com/xaviifar).`
+        ? `**Plataforma Multi-Agente de IA** (Proyecto destacado de Xavi):\n\n• **¿Qué resuelve?** Orquestación robusta de múltiples agentes autónomos ejecutando herramientas en bucles deterministas.\n• **Arquitectura clave:** Colas asíncronas en **Redis** para desacoplar tareas, **memoria vectorial** para retención de contexto a largo plazo y contención en **Docker**.\n• **El toque de ingeniería:** No confía a ciegas en LLMs no estructurados; implementa validación estricta de esquemas de llamadas a herramientas (tool-calling loops) para evitar ejecuciones fallidas o bucles infinitos.\n\nPuedes ver el código y arquitectura en su [GitHub](https://github.com/xaviifar).`
         : `**AI Agent Platform** (Xavi's flagship architecture project):\n\n• **Core challenge:** Orchestrating autonomous agents without letting them run wild into costly infinite loops.\n• **Tech Stack:** **Redis queues** for async task scheduling, **vector memory** for semantic recall, deterministic tool-calling loops, and **Docker** isolation.\n• **Engineering decision:** Enforcing structured JSON schema validation and deterministic state transitions so agent tool execution behaves reliably in production.\n\nCheck out the codebase on [GitHub](https://github.com/xaviifar).`,
     followUps: (lang) =>
       lang === "es"
@@ -191,7 +191,7 @@ const INTENTS: IntentPattern[] = [
         : ["Education background", "Why hire him?", "Contact"],
   },
 
-  // 7. Education / Certifications
+  // 7. Education
   {
     keywords: [
       "education",
@@ -202,14 +202,13 @@ const INTENTS: IntentPattern[] = [
       "fp",
       "dam",
       "big data",
-      "certificaciones",
       "titulacion",
       "titulación",
     ],
     reply: (lang) =>
       lang === "es"
-        ? `**Formación y Credenciales:**\n\n• **Curso de Especialización en Inteligencia Artificial y Big Data:**\nFormación avanzada en machine learning, procesamiento de datos masivos, redes neuronales y pipelines analíticos.\n\n• **Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM):**\nArquitectura de software, patrones de diseño, bases de datos relacionales y desarrollo full-stack.\n\n• **Sistemas Microinformáticos y Redes:**\nFundamentos sólidos de redes, protocolos TCP/IP, sistemas operativos y hardware.`
-        : `**Education & Qualifications:**\n\n• **Specialization in Artificial Intelligence & Big Data:**\nAdvanced coursework in machine learning pipelines, neural networks, Big Data processing, and predictive models.\n\n• **Higher Degree in Multi-platform Application Development (DAM):**\nSoftware architecture, object-oriented design, databases, and application lifecycle.\n\n• **Systems & Network Administration Foundations:**\nCore networking protocols, hardware architecture, and OS diagnostics.`,
+        ? `**Formación Académica:**\n\n• **Curso de Especialización en Inteligencia Artificial y Big Data:**\nFormación avanzada en machine learning, procesamiento de datos masivos, redes neuronales y pipelines analíticos.\n\n• **Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM):**\nArquitectura de software, patrones de diseño, bases de datos relacionales y desarrollo full-stack.\n\n• **Sistemas Microinformáticos y Redes:**\nFundamentos sólidos de redes, protocolos TCP/IP, sistemas operativos y hardware.`
+        : `**Academic Education:**\n\n• **Specialization in Artificial Intelligence & Big Data:**\nAdvanced coursework in machine learning pipelines, neural networks, Big Data processing, and predictive models.\n\n• **Higher Degree in Multi-platform Application Development (DAM):**\nSoftware architecture, object-oriented design, databases, and application lifecycle.\n\n• **Systems & Network Administration Foundations:**\nCore networking protocols, hardware architecture, and OS diagnostics.`,
     followUps: (lang) =>
       lang === "es"
         ? ["Ver proyectos", "Stack técnico", "Contacto"]
@@ -296,7 +295,6 @@ const INTENTS: IntentPattern[] = [
       "chiste",
       "broma",
       "grok",
-      "coucou",
       "eres real",
       "are you real",
       "skynet",
@@ -316,13 +314,13 @@ const INTENTS: IntentPattern[] = [
         : ["AI Projects", "Tech stack", "Who is Xavi?"],
   },
 
-  // 12. Greetings / Coucou
+  // 12. Greetings
   {
-    keywords: ["hola", "hello", "hi", "hey", "salut", "coucou", "buenas", "buenos dias", "good morning"],
+    keywords: ["hola", "hello", "hi", "hey", "salut", "buenas", "buenos dias", "good morning"],
     reply: (lang) =>
       lang === "es"
-        ? `¡Coucou! 👋 Aquí el asistente de Xavi Far. ¿Qué te gustaría descubrir hoy? Puedo contarte sobre su **Plataforma Multi-Agente**, su experiencia con **Python y LangGraph**, o facilitarte su CV directamente.`
-        : `Coucou! 👋 Xavi Far's assistant here. What would you like to explore? I can tell you about his **AI Agent Platform**, his experience with **Python & LangGraph**, or get you his direct CV and contact info.`,
+        ? `¡Hola! 👋 Aquí el asistente IA de Xavi Far (modo Grok). ¿Qué te gustaría descubrir hoy? Puedo contarte sobre su **Plataforma Multi-Agente**, su experiencia con **Python y LangGraph**, o facilitarte su CV directamente.`
+        : `Hey there! 👋 Xavi Far's AI assistant here (Grok mode). What would you like to explore? I can tell you about his **AI Agent Platform**, his experience with **Python & LangGraph**, or get you his direct CV and contact info.`,
     followUps: (lang) =>
       lang === "es"
         ? ["¿Quién es Xavi?", "Proyectos de IA", "Descargar CV"]
@@ -371,10 +369,10 @@ export function generateBotResponse(
     }
   }
 
-  // Witty Grok / Coucou fallback for open queries
+  // Witty Grok fallback for open queries
   if (effectiveLang === "es") {
     return {
-      text: `*Coucou!* Mi modelo neuronal todavía está indexando esa pregunta específica, pero como diría Grok: no hay misterio que un buen commit o una llamada a [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com) no resuelva.\n\nSi buscas saber más sobre sus **sistemas multi-agente**, su **experiencia en ESDI** o revisar su **código en GitHub**, dímelo y te paso los detalles directos.`,
+      text: `*Modo Grok ⚡:* Mi modelo neuronal todavía está indexando esa pregunta específica, pero como diría Grok: no hay misterio que un buen commit o una llamada a [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com) no resuelva.\n\nSi buscas saber más sobre sus **sistemas multi-agente**, su **experiencia en ESDI** o revisar su **código en GitHub**, dímelo y te paso los detalles directos.`,
       suggestions: [
         "¿Quién es Xavi?",
         "Plataforma de agentes",
@@ -385,7 +383,7 @@ export function generateBotResponse(
   }
 
   return {
-    text: `*Coucou!* My neural weights are still calibrating on that specific query, but in true Grok fashion: there's no engineering puzzle that a solid Python architecture or a quick note to [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com) can't solve.\n\nIf you want the real scoop on his **multi-agent orchestration**, his **work at ESDI Systems**, or his **GitHub repos**, ask away!`,
+    text: `*Grok mode ⚡:* My neural weights are still calibrating on that specific query, but in true engineering fashion: there's no puzzle that a solid Python architecture or a quick note to [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com) can't solve.\n\nIf you want the real scoop on his **multi-agent orchestration**, his **work at ESDI Systems**, or his **GitHub repos**, ask away!`,
     suggestions: [
       "Who is Xavi?",
       "AI Agent Platform",

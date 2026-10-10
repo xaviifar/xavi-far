@@ -228,12 +228,12 @@ export default function AiChatbot() {
       <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2">
         {/* Subtle greeting tooltip on first visit when closed */}
         {!isOpen && showTooltip && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex items-center gap-2 bg-card border border-border/80 px-3 py-1.5 rounded-full shadow-lg shadow-black/5 dark:shadow-black/20 text-xs font-mono text-ink">
-            <span>👋 {lang === "es" ? "¡Coucou! Pregúntame sobre Xavi" : "Coucou! Ask me about Xavi"}</span>
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex items-center gap-2 bg-card/95 backdrop-blur-md border border-neutral-300/80 dark:border-neutral-700/80 px-3.5 py-1.5 rounded-full shadow-lg shadow-black/5 dark:shadow-black/25 text-xs font-mono text-ink">
+            <span>✦ {lang === "es" ? "Pregúntame sobre Xavi" : "Ask me anything about Xavi"}</span>
             <button
               type="button"
               onClick={() => setShowTooltip(false)}
-              className="text-ink-faint hover:text-ink transition-colors ml-1 cursor-pointer"
+              className="text-ink-faint hover:text-ink transition-colors ml-1 cursor-pointer font-bold leading-none"
               aria-label="Dismiss tooltip"
             >
               ×
@@ -250,21 +250,18 @@ export default function AiChatbot() {
               setTimeout(() => inputRef.current?.focus(), 150);
             }}
             aria-label="Open AI Assistant"
-            className="flex items-center gap-2.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-card/90 backdrop-blur-md border border-neutral-300 dark:border-neutral-700/80 hover:border-ink text-ink shadow-lg shadow-black/10 dark:shadow-black/40 transition-all duration-200 group cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-card/95 backdrop-blur-md border border-neutral-300 dark:border-neutral-700/80 hover:border-ink dark:hover:border-neutral-400 text-ink shadow-xl shadow-black/10 dark:shadow-black/40 transition-all duration-200 group cursor-pointer hover:scale-[1.03] active:scale-[0.97]"
           >
-            {/* Grok-style Robot / Spark icon with online indicator */}
+            {/* Crisp ✦ Spark icon with subtle live indicator */}
             <div className="relative flex items-center justify-center w-5 h-5">
-              <span className="text-sm select-none">⚡</span>
-              <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
+              <span className="text-[13px] text-ink group-hover:scale-110 transition-transform select-none">✦</span>
+              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-card" />
             </div>
-            <span className="text-[12.5px] sm:text-[13px] font-mono font-medium tracking-tight">
-              {lang === "es" ? "Preguntar IA" : "Ask AI"}
+            <span className="text-[13px] font-mono font-medium tracking-tight">
+              {lang === "es" ? "Preguntar a la IA" : "Ask AI"}
             </span>
-            <span className="hidden sm:inline-block font-mono text-[10px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-ink-muted border border-border">
-              coucou
+            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-ink-muted border border-border">
+              grok
             </span>
           </button>
         )}
@@ -281,12 +278,12 @@ export default function AiChatbot() {
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-neutral-50/70 dark:bg-neutral-900/70 select-none">
             <div className="flex items-center gap-2.5">
               <div className="relative flex items-center justify-center w-7 h-7 rounded-lg bg-neutral-200/80 dark:bg-neutral-800 text-ink text-sm font-mono border border-border shadow-xs">
-                ⚡
+                ✦
                 <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-card" />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[13px] font-semibold text-ink">coucou.ai</span>
+                  <span className="text-[13px] font-semibold text-ink">xavi.ai</span>
                   <span className="font-mono text-[9.5px] px-1 py-0.2 rounded bg-neutral-200/70 dark:bg-neutral-800 text-ink-muted">
                     grok-mode
                   </span>
@@ -447,7 +444,7 @@ export default function AiChatbot() {
               </button>
             </form>
             <div className="flex items-center justify-between mt-2 px-1 font-mono text-[10px] text-ink-faint">
-              <span>Coucou / Grok-style persona</span>
+              <span>Grok-style AI Assistant</span>
               <span>Enter ↵ to send</span>
             </div>
           </div>

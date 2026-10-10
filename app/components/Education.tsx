@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 
 interface EducationItem {
@@ -53,27 +52,14 @@ const educationData: EducationItem[] = [
   },
 ];
 
-const certifications = [
-  {
-    title: "Microsoft Certified: Azure AI Fundamentals",
-    code: "AI-900",
-    issuer: "Microsoft",
-    description: {
-      en: "Core principles of machine learning, computer vision, natural language processing, and responsible AI governance on Azure.",
-      es: "Principios fundamentales de machine learning, visión por computador, procesamiento del lenguaje natural y gobernanza de IA responsable en Azure.",
-    },
-  },
-];
-
 export default function Education() {
   const { lang } = useLanguage();
-  const [expandedCert, setExpandedCert] = useState<string | null>("AI-900");
 
   return (
     <section id="education" className="scroll-mt-14 sm:scroll-mt-16 w-full pb-10 sm:pb-12">
       <p className="mb-6 font-mono text-[15px] text-ink-muted">
         <span className="text-ink-faint">#</span>{" "}
-        {lang === "es" ? "formación y certificaciones" : "education & credentials"}
+        {lang === "es" ? "formación" : "education"}
       </p>
 
       {/* Education Timeline */}
@@ -105,62 +91,6 @@ export default function Education() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Certifications Sub-block */}
-      <div className="mt-8 pt-4 border-t border-neutral-200/50 dark:border-neutral-800/50">
-        <p className="mb-4 font-mono text-[13px] text-ink-muted uppercase tracking-wider">
-          {lang === "es" ? "Certificaciones" : "Certifications"}
-        </p>
-
-        <div className="flex flex-col divide-y divide-neutral-200/50 dark:divide-neutral-800/50">
-          {certifications.map((cert) => {
-            const isOpen = expandedCert === cert.code;
-            return (
-              <div key={cert.code} className="py-3 first:pt-0 last:pb-0">
-                <button
-                  type="button"
-                  onClick={() => setExpandedCert(isOpen ? null : cert.code)}
-                  className="w-full flex items-center justify-between gap-3 text-left cursor-pointer group select-none py-1 transition-colors"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2.5">
-                    <span className="text-[14px] font-medium text-ink leading-snug">
-                      {cert.title}
-                    </span>
-                    <span className="font-mono text-[11.5px] text-ink-muted">
-                      ({cert.code}) · {cert.issuer}
-                    </span>
-                  </div>
-
-                  <div className="shrink-0 text-ink-muted group-hover:text-ink transition-colors">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`lucide lucide-chevron-down h-4 w-4 transition-transform duration-250 ease-out ${
-                        isOpen ? "rotate-180 text-ink" : "rotate-0"
-                      }`}
-                    >
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </div>
-                </button>
-
-                {isOpen && (
-                  <p className="mt-2 text-[13px] leading-relaxed text-ink-muted font-sans animate-in fade-in duration-150">
-                    {cert.description[lang]}
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

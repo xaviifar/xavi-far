@@ -40,7 +40,7 @@ export default function Home() {
         {/* Pixel Art Footer */}
         <Footer />
 
-        {/* Interactive Grok / Coucou AI Chatbot */}
+        {/* Interactive Grok AI Chatbot */}
         <AiChatbot />
       </div>
     </main>
