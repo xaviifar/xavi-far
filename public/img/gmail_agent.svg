@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141416"/>
+      <stop offset="100%" stop-color="#0a0a0c"/>
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EA4335" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#4285F4" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#34A853" stop-opacity="0.3"/>
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+
+  <!-- Top Ambient Glow -->
+  <rect x="150" y="20" width="500" height="120" rx="60" fill="url(#glowGrad)" filter="blur(40px)"/>
+
+  <!-- Central Interface Card -->
+  <rect x="60" y="50" width="680" height="400" rx="14" fill="#121316" stroke="#26272b" stroke-width="1.5"/>
+
+  <!-- Window Header Bar -->
+  <rect x="60" y="50" width="680" height="46" rx="14" fill="#191a1f"/>
+  <rect x="60" y="82" width="680" height="14" fill="#191a1f"/>
+  <line x1="60" y1="96" x2="740" y2="96" stroke="#26272b" stroke-width="1"/>
+
+  <!-- Window Controls -->
+  <circle cx="88" cy="73" r="5.5" fill="#EF4444" opacity="0.8"/>
+  <circle cx="106" cy="73" r="5.5" fill="#F59E0B" opacity="0.8"/>
+  <circle cx="124" cy="73" r="5.5" fill="#10B981" opacity="0.8"/>
+
+  <!-- Window Title -->
+  <text x="400" y="77" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#8A8A8A" text-anchor="middle">gmail-agent · langgraph-orchestrator.py</text>
+
+  <!-- Status Pill -->
+  <rect x="645" y="64" width="75" height="20" rx="10" fill="#22c55e" fill-opacity="0.15" stroke="#22c55e" stroke-opacity="0.3"/>
+  <circle cx="657" cy="74" r="3" fill="#22c55e"/>
+  <text x="666" y="78" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" fill="#4ade80" font-weight="600">ACTIVE</text>
+
+  <!-- Left Sidebar (Inbox Stream) -->
+  <rect x="80" y="116" width="230" height="314" rx="8" fill="#17181c" stroke="#26272b" stroke-width="1"/>
+  
+  <text x="96" y="142" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#71717A" font-weight="600">GMAIL INBOX FEED</text>
+
+  <!-- Inbox items -->
+  <g transform="translate(92, 156)">
+    <rect width="206" height="48" rx="6" fill="#1f2026" stroke="#32343d" stroke-width="1"/>
+    <text x="10" y="20" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#f4f4f5">Security Alert: AWS</text>
+    <text x="10" y="36" font-family="-apple-system, sans-serif" font-size="10" fill="#a1a1aa">Root account MFA created...</text>
+    <rect x="156" y="14" width="40" height="16" rx="4" fill="#ef4444" fill-opacity="0.2"/>
+    <text x="176" y="25.5" font-family="ui-monospace, monospace" font-size="8.5" fill="#f87171" text-anchor="middle">URGENT</text>
+  </g>
+
+  <g transform="translate(92, 214)">
+    <rect width="206" height="48" rx="6" fill="#191a1f" stroke="#26272b" stroke-width="1"/>
+    <text x="10" y="20" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e4e4e7">GitHub: Daily Digest</text>
+    <text x="10" y="36" font-family="-apple-system, sans-serif" font-size="10" fill="#71717a">7 PRs merged across repo...</text>
+    <rect x="156" y="14" width="40" height="16" rx="4" fill="#3b82f6" fill-opacity="0.2"/>
+    <text x="176" y="25.5" font-family="ui-monospace, monospace" font-size="8.5" fill="#60a5fa" text-anchor="middle">DIGEST</text>
+  </g>
+
+  <g transform="translate(92, 272)">
+    <rect width="206" height="48" rx="6" fill="#191a1f" stroke="#26272b" stroke-width="1"/>
+    <text x="10" y="20" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e4e4e7">Stripe Invoice #3910</text>
+    <text x="10" y="36" font-family="-apple-system, sans-serif" font-size="10" fill="#71717a">Payment succeeded for tier...</text>
+    <rect x="156" y="14" width="40" height="16" rx="4" fill="#10b981" fill-opacity="0.2"/>
+    <text x="176" y="25.5" font-family="ui-monospace, monospace" font-size="8.5" fill="#34d399" text-anchor="middle">RECEIPT</text>
+  </g>
+
+  <g transform="translate(92, 330)">
+    <rect width="206" height="48" rx="6" fill="#191a1f" stroke="#26272b" stroke-width="1"/>
+    <text x="10" y="20" font-family="-apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#71717a">Newsletter Promotions</text>
+    <text x="10" y="36" font-family="-apple-system, sans-serif" font-size="10" fill="#52525b">Weekly promo catalog...</text>
+    <rect x="156" y="14" width="40" height="16" rx="4" fill="#71717a" fill-opacity="0.2"/>
+    <text x="176" y="25.5" font-family="ui-monospace, monospace" font-size="8.5" fill="#a1a1aa" text-anchor="middle">TRASH</text>
+  </g>
+
+  <!-- Right Panel: LangGraph StateGraph Architecture -->
+  <rect x="330" y="116" width="390" height="314" rx="8" fill="#17181c" stroke="#26272b" stroke-width="1"/>
+
+  <text x="350" y="142" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#71717A" font-weight="600">LANGGRAPH STATEGRAPH PIPELINE</text>
+
+  <!-- Node 1: START -> Agent Node -->
+  <g transform="translate(350, 166)">
+    <rect width="165" height="58" rx="6" fill="#1f2026" stroke="#4285F4" stroke-width="1.2"/>
+    <text x="12" y="24" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#60a5fa">node("agent")</text>
+    <text x="12" y="42" font-family="-apple-system, sans-serif" font-size="10.5" fill="#9ca3af">OpenRouter LLM + Tools</text>
+  </g>
+
+  <!-- Flow Arrow -->
+  <path d="M 525 195 L 565 195" stroke="#52525b" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Node 2: ToolNode -->
+  <g transform="translate(565, 166)">
+    <rect width="135" height="58" rx="6" fill="#1f2026" stroke="#34A853" stroke-width="1.2"/>
+    <text x="12" y="24" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#4ade80">ToolNode</text>
+    <text x="12" y="42" font-family="-apple-system, sans-serif" font-size="10.5" fill="#9ca3af">Gmail API Tools</text>
+  </g>
+
+  <!-- Dynamic Loop Arrow from ToolNode back to Agent -->
+  <path d="M 632 232 L 632 254 L 432 254 L 432 232" fill="none" stroke="#EA4335" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="532" y="268" font-family="ui-monospace, monospace" font-size="9" fill="#f87171" text-anchor="middle">should_continue(tool_calls)</text>
+
+  <!-- Execution Console Box -->
+  <rect x="350" y="286" width="350" height="126" rx="6" fill="#111215" stroke="#26272b" stroke-width="1"/>
+  
+  <text x="364" y="308" font-family="ui-monospace, monospace" font-size="10.5" fill="#22c55e">❯ agent.ainvoke({"messages": [UserQuery]})</text>
+  <text x="364" y="328" font-family="ui-monospace, monospace" font-size="10" fill="#9ca3af">→ Executing tool: read_inbox(query="category:promotions", limit=25)</text>
+  <text x="364" y="348" font-family="ui-monospace, monospace" font-size="10" fill="#9ca3af">→ Executing tool: delete_batch(ids=[msg_01, msg_02, ...])</text>
+  <text x="364" y="368" font-family="ui-monospace, monospace" font-size="10" fill="#eab308">→ Synthesizing summary with ElevenLabs TTS...</text>
+  <text x="364" y="388" font-family="ui-monospace, monospace" font-size="10" fill="#4ade80">✓ StateGraph reached END: 25 emails triaged &amp; reported</text>
+</svg>

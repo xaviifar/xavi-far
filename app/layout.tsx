@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,9 +14,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Xavi Far | AI & Backend Engineer",
-  description: "Xavi Far | Portfolio - AI Specialist & Backend Engineer",
+  title: "Xavi Far · AI Engineer & AI Systems Developer",
+  description:
+    "AI Systems Developer specializing in autonomous AI agents, machine learning pipelines, and Big Data infrastructure.",
+  keywords: [
+    "Xavi Far",
+    "AI Engineer",
+    "AI Agents",
+    "Machine Learning",
+    "LangGraph",
+    "LangChain",
+    "Python",
+    "Big Data",
+  ],
+  authors: [{ name: "Xavi Far" }],
+  openGraph: {
+    title: "Xavi Far · AI Engineer & AI Systems Developer",
+    description:
+      "AI Systems Developer specializing in autonomous AI agents, machine learning pipelines, and Big Data infrastructure.",
+    type: "website",
+  },
 };
+
+import { LanguageProvider } from "./context/LanguageContext";
 
 export default function RootLayout({
   children,
@@ -26,10 +46,29 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-[#f3f3f1] text-[#161616] font-sans selection:bg-[#161616] selection:text-[#f3f3f1]">
-        {children}
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('theme') === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-full bg-bg text-ink font-sans">
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );

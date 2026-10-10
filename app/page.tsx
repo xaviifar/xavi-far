@@ -1,35 +1,42 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import SelectedWork from "./components/SelectedWork";
+import Activity from "./components/Activity";
+import Projects from "./components/Projects";
 import Experience from "./components/Experience";
-import Toolkit from "./components/Toolkit";
-import AskAICallout from "./components/AskAICallout";
+import Education from "./components/Education";
+import TechStack from "./components/TechStack";
+import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f3f3f1] text-[#161616]">
-      {/* MASTER CONTAINER */}
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[840px] flex-col px-5 sm:px-10 md:px-14">
-        {/* Integrated Navigation Header */}
+    <main className="min-h-screen w-full flex flex-col items-center px-6 sm:px-8 bg-bg text-ink">
+      <div className="w-full max-w-[720px]">
+        {/* Navigation Bar */}
         <Header />
 
-        {/* Hero Section */}
+        {/* Hero & About Bio */}
         <Hero />
 
-        {/* Selected Work (Prioritized at Top) */}
-        <SelectedWork />
+        {/* GitHub / Systems Activity Heatmap */}
+        <Activity />
 
-        {/* Work Experience */}
+        {/* Selected Projects */}
+        <Projects />
+
+        {/* Experience Timeline */}
         <Experience />
 
-        {/* Core Toolkit */}
-        <Toolkit />
+        {/* Education & Credentials */}
+        <Education />
 
-        {/* Ask My AI Feature */}
-        {/* <AskAICallout /> */}
+        {/* Tech Stack Pills */}
+        <TechStack />
 
-        {/* High-Impact Editorial Footer */}
+        {/* Contact Section & Message Form */}
+        <Contact />
+
+        {/* Pixel Art Footer */}
         <Footer />
       </div>
     </main>
