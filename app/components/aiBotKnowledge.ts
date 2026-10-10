@@ -255,8 +255,8 @@ const INTENTS: IntentPattern[] = [
     ],
     reply: (lang) =>
       lang === "es"
-        ? `**Formas directas de contactar con Xavi:**\n\n• **Email:** [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com)\n• **GitHub:** [github.com/xaviifar](https://github.com/xaviifar)\n• **LinkedIn:** [linkedin.com/in/xavi-far-márquez](https://www.linkedin.com/in/xavi-far-m%C3%A1rquez/)\n• **Currículum:** [Descargar CV en PDF](/Xavi_Far_CV.pdf)\n\nTambién puedes usar el formulario de contacto al final de esta misma página web.`
-        : `**Direct ways to reach Xavi:**\n\n• **Email:** [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com)\n• **GitHub:** [github.com/xaviifar](https://github.com/xaviifar)\n• **LinkedIn:** [linkedin.com/in/xavi-far-márquez](https://www.linkedin.com/in/xavi-far-m%C3%A1rquez/)\n• **Resume / CV:** [Download CV PDF](/Xavi_Far_CV.pdf)\n\nOr drop a quick message through the contact form at the bottom of the page!`,
+        ? `**Formas directas de contactar con Xavi:**\n\n• **Email:** [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com)\n• **GitHub:** [github.com/xaviifar](https://github.com/xaviifar)\n• **LinkedIn:** [linkedin.com/in/xavi-far](https://www.linkedin.com/in/xavi-far/)\n• **Currículum:** [Descargar CV en PDF](/Xavi_Far_CV.pdf)\n\nTambién puedes usar el formulario de contacto al final de esta misma página web.`
+        : `**Direct ways to reach Xavi:**\n\n• **Email:** [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com)\n• **GitHub:** [github.com/xaviifar](https://github.com/xaviifar)\n• **LinkedIn:** [linkedin.com/in/xavi-far](https://www.linkedin.com/in/xavi-far/)\n• **Resume / CV:** [Download CV PDF](/Xavi_Far_CV.pdf)\n\nOr drop a quick message through the contact form at the bottom of the page!`,
     followUps: (lang) =>
       lang === "es"
         ? ["¿Dónde vive?", "Stack técnico", "Volver al inicio"]
@@ -372,7 +372,7 @@ export function generateBotResponse(
   // Witty Grok fallback for open queries
   if (effectiveLang === "es") {
     return {
-      text: `*Modo Grok ⚡:* Mi modelo neuronal todavía está indexando esa pregunta específica, pero como diría Grok: no hay misterio que un buen commit o una llamada a [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com) no resuelva.\n\nSi buscas saber más sobre sus **sistemas multi-agente**, su **experiencia en ESDI** o revisar su **código en GitHub**, dímelo y te paso los detalles directos.`,
+      text: `*Modo Grok ⚡:* Mi modelo neuronal todavía está indexando esa pregunta específica, pero como diría Grok: no hay misterio que un buen commit o una llamada a [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com) no resuelva.\n\nSi buscas saber más sobre sus **sistemas multi-agente**, su **experiencia en ESDI** o revisar su **código en GitHub**, dímelo y te paso los detalles directos.`,
       suggestions: [
         "¿Quién es Xavi?",
         "Plataforma de agentes",
@@ -383,7 +383,7 @@ export function generateBotResponse(
   }
 
   return {
-    text: `*Grok mode ⚡:* My neural weights are still calibrating on that specific query, but in true engineering fashion: there's no puzzle that a solid Python architecture or a quick note to [xavifarmarquez@gmail.com](mailto:xavifarmarquez@gmail.com) can't solve.\n\nIf you want the real scoop on his **multi-agent orchestration**, his **work at ESDI Systems**, or his **GitHub repos**, ask away!`,
+    text: `*Grok mode ⚡:* My neural weights are still calibrating on that specific query, but in true engineering fashion: there's no puzzle that a solid Python architecture or a quick note to [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com) can't solve.\n\nIf you want the real scoop on his **multi-agent orchestration**, his **work at ESDI Systems**, or his **GitHub repos**, ask away!`,
     suggestions: [
       "Who is Xavi?",
       "AI Agent Platform",
