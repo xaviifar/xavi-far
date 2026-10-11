@@ -11,7 +11,7 @@ import AiChatbot from "./components/AiChatbot";
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full flex flex-col items-center px-6 sm:px-8 bg-bg text-ink">
+    <main className="min-h-screen w-full flex flex-col items-center px-4 sm:px-8 bg-bg text-ink">
       <div className="w-full max-w-[720px]">
         {/* Navigation Bar */}
         <Header />
@@ -40,7 +40,7 @@ export default function Home() {
         {/* Pixel Art Footer */}
         <Footer />
 
-        {/* Interactive Grok AI Chatbot */}
+        {/* Interactive Portfolio AI Assistant */}
         <AiChatbot />
       </div>
     </main>

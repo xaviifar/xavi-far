@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { SiKaggle } from "react-icons/si";
 
 export default function Footer() {
   const { lang } = useLanguage();
@@ -79,6 +80,22 @@ export default function Footer() {
               </span>
               <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 font-mono text-[10px] text-bg opacity-0 group-hover:opacity-100 transition-opacity z-30 shadow-xs">
                 LinkedIn
+              </span>
+            </a>
+
+            {/* Kaggle */}
+            <a
+              href="https://www.kaggle.com/xaviifar"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Kaggle"
+              className="group relative flex items-center justify-center hover:-translate-y-0.5 transition-all duration-150 cursor-pointer text-[#20BEFF] hover:opacity-85"
+            >
+              <span className="w-5 h-5 flex items-center justify-center shrink-0">
+                <SiKaggle className="h-[16.5px] w-[16.5px]" />
+              </span>
+              <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 font-mono text-[10px] text-bg opacity-0 group-hover:opacity-100 transition-opacity z-30 shadow-xs">
+                Kaggle
               </span>
             </a>
 

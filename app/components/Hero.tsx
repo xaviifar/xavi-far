@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
+import { SiKaggle } from "react-icons/si";
 
 export default function Hero() {
   const { lang } = useLanguage();
@@ -205,6 +206,20 @@ export default function Hero() {
           </svg>
           <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-md bg-ink px-2.5 py-1 text-[12px] font-medium text-bg opacity-0 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-0 group-hover:opacity-100 z-30 shadow-xs">
             LinkedIn
+          </span>
+        </a>
+
+        {/* Kaggle */}
+        <a
+          href="https://www.kaggle.com/xaviifar"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Kaggle"
+          className="group relative flex items-center justify-center transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-105 text-[#20BEFF] hover:opacity-85"
+        >
+          <SiKaggle className="h-[18px] w-[18px]" />
+          <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-md bg-ink px-2.5 py-1 text-[12px] font-medium text-bg opacity-0 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-0 group-hover:opacity-100 z-30 shadow-xs">
+            Kaggle
           </span>
         </a>
 

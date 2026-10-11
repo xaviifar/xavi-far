@@ -108,7 +108,7 @@ export default function Header() {
           );
         })}
 
-        {/* Clean Ask AI link (no dot) */}
+        {/* Clean Ask AI link matching other navigation items */}
         <button
           type="button"
           onClick={() => window.dispatchEvent(new CustomEvent("open-ai-chat"))}

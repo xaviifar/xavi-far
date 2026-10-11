@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useTransition, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import {
   ChatMessage,
@@ -21,14 +21,12 @@ export default function AiChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(true);
   const [conversationHistory, setConversationHistory] = useState<ChatMessage[]>([]);
-  const [, startTransition] = useTransition();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Derived greeting message matching current language
+  // Initial greeting derived from current language (first person persona)
   const greetingMsg: ChatMessage = useMemo(
     () => ({
       id: "initial-greeting",
@@ -36,6 +34,7 @@ export default function AiChatbot() {
       text: getGreeting(lang),
       timestamp: "",
       suggestions: lang === "es" ? INITIAL_SUGGESTIONS_ES : INITIAL_SUGGESTIONS_EN,
+      source: "local",
     }),
     [lang]
   );
@@ -45,47 +44,49 @@ export default function AiChatbot() {
     [greetingMsg, conversationHistory]
   );
 
-  // Listen for navigation trigger event ("open-ai-chat")
+  // Global listener for "open-ai-chat" custom event and Cmd+K / Ctrl+K shortcut
   useEffect(() => {
     const handleOpen = () => {
       setIsOpen(true);
-      setShowTooltip(false);
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 150);
+      setTimeout(() => inputRef.current?.focus(), 150);
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Toggle with Cmd+K or Ctrl+K
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsOpen((prev) => {
+          const next = !prev;
+          if (next) {
+            setTimeout(() => inputRef.current?.focus(), 150);
+          }
+          return next;
+        });
+      }
+
+      // Close with Escape
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
     };
 
     window.addEventListener("open-ai-chat", handleOpen);
-    return () => window.removeEventListener("open-ai-chat", handleOpen);
-  }, []);
+    window.addEventListener("keydown", handleKeyDown);
 
-  // Auto-scroll to bottom of messages
+    return () => {
+      window.removeEventListener("open-ai-chat", handleOpen);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  // Auto-scroll when messages update or typing indicator triggers
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isTyping, isOpen]);
 
-  // Hide tooltip after 8 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTooltip(false);
-    }, 8000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Handle closing modal with Esc key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
-
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = (textToSend ?? input).trim();
     if (!query || isTyping) return;
 
@@ -96,32 +97,64 @@ export default function AiChatbot() {
       timestamp: "",
     };
 
-    setConversationHistory((prev) => [...prev, userMsg]);
+    const nextHistory = [...conversationHistory, userMsg];
+    setConversationHistory(nextHistory);
     setInput("");
     setIsTyping(true);
 
-    // Realistic Grok typing response delay (350ms - 550ms)
-    setTimeout(() => {
-      startTransition(() => {
-        const botResult = generateBotResponse(query, lang);
+    try {
+      // Conversation payload for OpenRouter API endpoint
+      const apiPayload = [
+        { role: "assistant", content: greetingMsg.text },
+        ...nextHistory.map((m) => ({
+          role: m.sender === "user" ? "user" : "assistant",
+          content: m.text,
+        })),
+      ];
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: apiPayload, lang }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
         const botMsg: ChatMessage = {
           id: getNextMsgId("bot"),
           sender: "bot",
-          text: botResult.text,
+          text: data.text || "",
           timestamp: "",
-          suggestions: botResult.suggestions,
+          suggestions: data.suggestions,
+          source: data.source,
         };
         setConversationHistory((prev) => [...prev, botMsg]);
-        setIsTyping(false);
-      });
-    }, 450);
+      } else {
+        throw new Error("API non-200 status");
+      }
+    } catch {
+      // Deterministic offline fallback engine
+      const localResult = generateBotResponse(query, lang);
+      const botMsg: ChatMessage = {
+        id: getNextMsgId("bot"),
+        sender: "bot",
+        text: localResult.text,
+        timestamp: "",
+        suggestions: localResult.suggestions,
+        source: "local",
+      };
+      setConversationHistory((prev) => [...prev, botMsg]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleReset = () => {
     setConversationHistory([]);
+    setTimeout(() => inputRef.current?.focus(), 100);
   };
 
-  // Helper to render markdown-like text (bold, links, code, bullet points)
+  // Helper for markdown-like text rendering (bold, inline code, links, bullet points)
   const renderFormattedText = (content: string) => {
     const lines = content.split("\n");
     return lines.map((line, idx) => {
@@ -129,11 +162,9 @@ export default function AiChatbot() {
         return <div key={idx} className="h-2" />;
       }
 
-      // Format bullet lines
       const isBullet = line.trim().startsWith("•") || line.trim().startsWith("-");
       const cleanLine = isBullet ? line.trim().replace(/^[•-]\s*/, "") : line;
 
-      // Parse markdown bold **text**, code `text`, and links [text](url)
       const parseSegments = (str: string) => {
         const parts: React.ReactNode[] = [];
         let cur = str;
@@ -152,7 +183,7 @@ export default function AiChatbot() {
                 target={url.startsWith("http") ? "_blank" : undefined}
                 rel={url.startsWith("http") ? "noopener noreferrer" : undefined}
                 download={isDownload ? "Xavi_Far_CV.pdf" : undefined}
-                className="text-ink font-medium underline underline-offset-2 decoration-neutral-400 hover:decoration-ink transition-colors"
+                className="text-ink font-semibold underline underline-offset-2 decoration-neutral-400 hover:decoration-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
               >
                 {label}
               </a>
@@ -179,7 +210,7 @@ export default function AiChatbot() {
             parts.push(
               <code
                 key={key++}
-                className="rounded bg-neutral-100 dark:bg-neutral-800/80 px-1 py-0.5 font-mono text-[11.5px] text-ink border border-border"
+                className="rounded bg-neutral-200/70 dark:bg-neutral-800/90 px-1.5 py-0.5 font-mono text-[12px] sm:text-[11.5px] text-ink border border-neutral-300/60 dark:border-neutral-700/60"
               >
                 {codeMatch[1]}
               </code>
@@ -207,8 +238,8 @@ export default function AiChatbot() {
 
       if (isBullet) {
         return (
-          <div key={idx} className="flex items-start gap-2 my-0.5">
-            <span className="text-ink-muted text-xs select-none mt-1">▪</span>
+          <div key={idx} className="flex items-start gap-2 my-1">
+            <span className="text-emerald-500 dark:text-emerald-400 text-xs select-none mt-0.5 font-bold">›</span>
             <div className="flex-1">{parseSegments(cleanLine)}</div>
           </div>
         );
@@ -224,89 +255,95 @@ export default function AiChatbot() {
 
   return (
     <>
-      {/* Floating launcher button in the bottom right corner */}
-      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2">
-        {/* Subtle greeting tooltip on first visit when closed */}
-        {!isOpen && showTooltip && (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 flex items-center gap-2 bg-card/95 backdrop-blur-md border border-neutral-300/80 dark:border-neutral-700/80 px-3.5 py-1.5 rounded-full shadow-lg shadow-black/5 dark:shadow-black/25 text-xs font-mono text-ink">
-            <span>✦ {lang === "es" ? "Pregúntame sobre Xavi" : "Ask me anything about Xavi"}</span>
-            <button
-              type="button"
-              onClick={() => setShowTooltip(false)}
-              className="text-ink-faint hover:text-ink transition-colors ml-1 cursor-pointer font-bold leading-none"
-              aria-label="Dismiss tooltip"
-            >
-              ×
-            </button>
-          </div>
-        )}
-
+      {/* Floating launcher trigger - prominent and optimized for mobile & desktop */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end">
         {!isOpen && (
           <button
             type="button"
             onClick={() => {
               setIsOpen(true);
-              setShowTooltip(false);
               setTimeout(() => inputRef.current?.focus(), 150);
             }}
             aria-label="Open AI Assistant"
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-card/95 backdrop-blur-md border border-neutral-300 dark:border-neutral-700/80 hover:border-ink dark:hover:border-neutral-400 text-ink shadow-xl shadow-black/10 dark:shadow-black/40 transition-all duration-200 group cursor-pointer hover:scale-[1.03] active:scale-[0.97]"
+            className="group relative flex items-center gap-2.5 px-4 py-2.5 sm:px-4.5 sm:py-2.5 min-h-[44px] rounded-full bg-surface/98 dark:bg-neutral-900/98 backdrop-blur-xl border border-neutral-300 dark:border-neutral-700/80 hover:border-neutral-900 dark:hover:border-emerald-500/80 text-ink shadow-[0_8px_30px_rgb(0,0,0,0.15)] dark:shadow-[0_4px_28px_-2px_rgba(16,185,129,0.32)] transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95"
           >
-            {/* Crisp ✦ Spark icon with subtle live indicator */}
-            <div className="relative flex items-center justify-center w-5 h-5">
-              <span className="text-[13px] text-ink group-hover:scale-110 transition-transform select-none">✦</span>
-              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-card" />
-            </div>
-            <span className="text-[13px] font-mono font-medium tracking-tight">
-              {lang === "es" ? "Preguntar a la IA" : "Ask AI"}
+            {/* Live emerald beacon indicator */}
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-xs" />
             </span>
-            <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-ink-muted border border-border">
-              grok
+
+            {/* Sparkle AI icon */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="text-emerald-500 dark:text-emerald-400 shrink-0"
+            >
+              <path d="M12 2L14.39 9.61L22 12L14.39 14.39L12 22L9.61 14.39L2 12L9.61 9.61L12 2Z" />
+            </svg>
+
+            {/* Button label */}
+            <span className="text-[13px] sm:text-[13.5px] font-medium tracking-tight whitespace-nowrap">
+              {lang === "es" ? "Preguntar a la IA" : "Ask Portfolio AI"}
             </span>
+
+            {/* Keyboard shortcut hint (desktop only) */}
+            <kbd className="hidden sm:inline-block ml-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-neutral-100 dark:bg-neutral-800 text-ink-muted border border-border">
+              ⌘K
+            </kbd>
           </button>
         )}
       </div>
 
-      {/* Chat Window Modal / Popover */}
+      {/* Chat Window Modal / Popover - optimized for mobile bottom-sheet & desktop popover */}
       {isOpen && (
         <div
           role="dialog"
           aria-label="AI Assistant"
-          className="fixed bottom-3 right-3 left-3 sm:left-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-[420px] h-[550px] max-h-[82dvh] sm:max-h-[85vh] flex flex-col rounded-2xl bg-card border border-neutral-300 dark:border-neutral-700/90 shadow-2xl shadow-black/20 dark:shadow-black/60 overflow-hidden backdrop-blur-xl animate-in fade-in zoom-in-95 duration-200"
+          className="fixed inset-x-2 bottom-2 sm:inset-x-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-[430px] h-[84dvh] sm:h-[580px] max-h-[92dvh] sm:max-h-[85vh] flex flex-col rounded-2xl bg-surface/98 dark:bg-neutral-900/98 border border-neutral-200/90 dark:border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.25)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.7)] overflow-hidden backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-200"
         >
+          {/* Mobile Sheet Handle */}
+          <div className="sm:hidden flex justify-center pt-2 pb-0.5 bg-neutral-50/70 dark:bg-neutral-900/70 select-none">
+            <div className="w-10 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700" />
+          </div>
+
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-neutral-50/70 dark:bg-neutral-900/70 select-none">
+          <div className="flex items-center justify-between px-4 py-3 sm:py-3.5 border-b border-border bg-neutral-50/70 dark:bg-neutral-900/70 select-none">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex items-center justify-center w-7 h-7 rounded-lg bg-neutral-200/80 dark:bg-neutral-800 text-ink text-sm font-mono border border-border shadow-xs">
-                ✦
-                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-card" />
+              {/* Monogram avatar with AI node */}
+              <div className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-neutral-900 dark:bg-neutral-800 text-white font-mono text-[11px] font-bold border border-neutral-700/60 shadow-xs">
+                <span>XF</span>
+                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-surface" />
               </div>
               <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[13px] font-semibold text-ink">xavi.ai</span>
-                  <span className="font-mono text-[9.5px] px-1 py-0.2 rounded bg-neutral-200/70 dark:bg-neutral-800 text-ink-muted">
-                    grok-mode
+                <span className="font-sans text-[13.5px] font-semibold text-ink leading-tight flex items-center gap-1.5">
+                  <span>Xavi AI Assistant</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-medium border border-emerald-500/20">
+                    online
                   </span>
-                </div>
-                <span className="font-mono text-[10.5px] text-ink-muted">
-                  {lang === "es" ? "Alter-ego IA de Xavi Far" : "Xavi Far's AI Alter-Ego"}
+                </span>
+                <span className="font-mono text-[10.5px] text-ink-muted mt-0.5">
+                  {lang === "es" ? "arquitectura · proyectos · stack" : "systems · projects · stack"}
                 </span>
               </div>
             </div>
 
             <div className="flex items-center gap-1 text-ink-muted">
-              {/* Reset chat button */}
+              {/* Reset button */}
               <button
                 type="button"
                 onClick={handleReset}
                 title={lang === "es" ? "Reiniciar conversación" : "Reset conversation"}
-                className="p-1.5 rounded-md hover:bg-neutral-200/60 dark:hover:bg-neutral-800 hover:text-ink transition-colors cursor-pointer"
+                className="p-2 sm:p-1.5 rounded-md hover:bg-neutral-200/60 dark:hover:bg-neutral-800 hover:text-ink transition-colors cursor-pointer min-h-[36px] min-w-[36px] flex items-center justify-center active:scale-95"
                 aria-label="Reset chat"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
+                  width="15"
+                  height="15"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -323,7 +360,7 @@ export default function AiChatbot() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-md hover:bg-neutral-200/60 dark:hover:bg-neutral-800 hover:text-ink transition-colors cursor-pointer text-base leading-none"
+                className="p-2 sm:p-1.5 rounded-md hover:bg-neutral-200/60 dark:hover:bg-neutral-800 hover:text-ink transition-colors cursor-pointer min-h-[36px] min-w-[36px] flex items-center justify-center active:scale-95"
                 aria-label="Close chat"
               >
                 <svg
@@ -345,7 +382,7 @@ export default function AiChatbot() {
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3.5 text-[13px] leading-relaxed no-scrollbar">
+          <div className="flex-1 overflow-y-auto px-4 py-3.5 space-y-3.5 text-[14px] sm:text-[13px] leading-relaxed no-scrollbar">
             {messages.map((msg) => {
               const isUser = msg.sender === "user";
               return (
@@ -354,10 +391,10 @@ export default function AiChatbot() {
                   className={`flex flex-col ${isUser ? "items-end" : "items-start"}`}
                 >
                   <div
-                    className={`max-w-[88%] rounded-xl px-3.5 py-2.5 transition-colors ${
+                    className={`max-w-[90%] sm:max-w-[88%] rounded-2xl px-3.5 py-2.5 transition-colors ${
                       isUser
-                        ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-xs"
-                        : "bg-neutral-100/90 dark:bg-neutral-900/90 border border-neutral-200/80 dark:border-neutral-800/80 text-ink"
+                        ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 rounded-tr-xs shadow-xs"
+                        : "bg-neutral-100/90 dark:bg-neutral-800/70 border border-neutral-200/80 dark:border-neutral-700/60 text-ink rounded-tl-xs"
                     }`}
                   >
                     {isUser ? (
@@ -367,18 +404,19 @@ export default function AiChatbot() {
                     )}
                   </div>
 
-                  {/* Suggestion Chips attached to bot message */}
+                  {/* Suggestion Chips */}
                   {!isUser && msg.suggestions && msg.suggestions.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-2 max-w-[92%]">
+                    <div className="flex flex-wrap gap-1.5 mt-2.5 max-w-[96%]">
                       {msg.suggestions.map((sug, i) => (
                         <button
                           key={i}
                           type="button"
                           onClick={() => handleSend(sug)}
                           disabled={isTyping}
-                          className="font-mono text-[11px] px-2.5 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800/80 hover:bg-neutral-200 dark:hover:bg-neutral-700/80 text-ink-muted hover:text-ink border border-border transition-colors cursor-pointer text-left"
+                          className="font-mono text-[12px] sm:text-[11px] px-3 py-1.5 sm:px-2.5 sm:py-1 rounded-full bg-surface hover:bg-neutral-100 dark:hover:bg-neutral-800 text-ink-muted hover:text-ink hover:border-neutral-400 dark:hover:border-neutral-600 border border-border transition-all cursor-pointer text-left flex items-center gap-1 active:scale-95"
                         >
-                          {sug}
+                          <span className="text-emerald-500">✦</span>
+                          <span>{sug}</span>
                         </button>
                       ))}
                     </div>
@@ -389,18 +427,23 @@ export default function AiChatbot() {
 
             {/* Typing Indicator */}
             {isTyping && (
-              <div className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-neutral-100/90 dark:bg-neutral-900/90 border border-border w-fit text-ink-muted">
-                <span className="h-1.5 w-1.5 rounded-full bg-ink-muted animate-bounce" />
-                <span className="h-1.5 w-1.5 rounded-full bg-ink-muted animate-bounce [animation-delay:0.15s]" />
-                <span className="h-1.5 w-1.5 rounded-full bg-ink-muted animate-bounce [animation-delay:0.3s]" />
+              <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-tl-xs bg-neutral-100/90 dark:bg-neutral-800/70 border border-neutral-200/80 dark:border-neutral-700/60 w-fit text-ink-muted text-xs">
+                <div className="flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce [animation-delay:0.15s]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce [animation-delay:0.3s]" />
+                </div>
+                <span className="text-[11px] font-mono ml-1 text-ink-muted">
+                  {lang === "es" ? "pensando..." : "thinking..."}
+                </span>
               </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input & Form */}
-          <div className="p-3 border-t border-border bg-neutral-50/50 dark:bg-neutral-900/50">
+          {/* Input & Form Area */}
+          <div className="p-3 sm:p-3.5 border-t border-border bg-neutral-50/70 dark:bg-neutral-900/70">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -408,6 +451,7 @@ export default function AiChatbot() {
               }}
               className="flex items-center gap-2"
             >
+              {/* text-[16px] on mobile avoids unwanted iOS Safari viewport auto-zoom */}
               <input
                 ref={inputRef}
                 type="text"
@@ -415,17 +459,17 @@ export default function AiChatbot() {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={
                   lang === "es"
-                    ? "Pregúntame lo que sea sobre Xavi..."
-                    : "Ask me anything about Xavi..."
+                    ? "Pregúntame sobre proyectos, stack o CV..."
+                    : "Ask me about projects, stack, or CV..."
                 }
-                className="flex-1 bg-card border border-neutral-300 dark:border-neutral-700 rounded-xl px-3 py-2 text-[13px] text-ink placeholder:text-ink-faint focus:outline-hidden focus:border-ink transition-colors"
+                className="flex-1 bg-surface border border-border rounded-xl px-3.5 py-2.5 sm:py-2 text-[16px] sm:text-[13px] text-ink placeholder:text-ink-faint focus:outline-hidden focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors font-sans"
                 disabled={isTyping}
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isTyping}
                 aria-label="Send message"
-                className="shrink-0 p-2 rounded-xl bg-ink text-bg font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center"
+                className="shrink-0 p-2.5 sm:p-2 rounded-xl bg-ink text-bg font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-xs min-h-[40px] min-w-[40px]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -444,8 +488,11 @@ export default function AiChatbot() {
               </button>
             </form>
             <div className="flex items-center justify-between mt-2 px-1 font-mono text-[10px] text-ink-faint">
-              <span>Grok-style AI Assistant</span>
-              <span>Enter ↵ to send</span>
+              <span className="flex items-center gap-1">
+                <span className="h-1 w-1 rounded-full bg-emerald-500" />
+                <span>OpenRouter AI · Multi-model</span>
+              </span>
+              <span className="hidden sm:inline">Enter ↵</span>
             </div>
           </div>
         </div>

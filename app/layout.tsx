@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,30 +14,96 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
-  title: "Xavi Far · AI Engineer & AI Systems Developer",
+  metadataBase: new URL("https://xavifar.dev"),
+  title: {
+    default: "Xavi Far · AI Systems & Autonomous Agents Engineer",
+    template: "%s | Xavi Far",
+  },
   description:
-    "AI Systems Developer specializing in autonomous AI agents, machine learning pipelines, and Big Data infrastructure.",
+    "Portfolio of Xavi Far — AI Systems Developer & Engineer specializing in autonomous multi-agent architectures, LangGraph, RAG pipelines, and end-to-end machine learning infrastructure.",
+  applicationName: "Xavi Far Portfolio",
+  authors: [{ name: "Xavi Far", url: "https://github.com/xaviifar" }],
+  creator: "Xavi Far",
+  publisher: "Xavi Far",
   keywords: [
     "Xavi Far",
     "AI Engineer",
-    "AI Agents",
-    "Machine Learning",
+    "AI Systems Developer",
+    "Autonomous Agents",
+    "Multi-Agent Systems",
     "LangGraph",
     "LangChain",
+    "RAG",
+    "Retrieval Augmented Generation",
+    "Machine Learning",
     "Python",
-    "Big Data",
+    "FastAPI",
+    "Vector Databases",
+    "ChromaDB",
+    "Next.js",
+    "Docker",
+    "PostgreSQL",
+    "Barcelona AI",
   ],
-  authors: [{ name: "Xavi Far" }],
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/icon.svg",
+    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
   openGraph: {
-    title: "Xavi Far · AI Engineer & AI Systems Developer",
+    title: "Xavi Far · AI Systems & Autonomous Agents Engineer",
     description:
       "AI Systems Developer specializing in autonomous AI agents, machine learning pipelines, and Big Data infrastructure.",
+    url: "https://xavifar.dev",
+    siteName: "Xavi Far · AI Systems Engineer",
+    images: [
+      {
+        url: "/portfolio.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Xavi Far — AI Systems Engineer",
+      },
+    ],
+    locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Xavi Far · AI Systems & Autonomous Agents Engineer",
+    description:
+      "Building autonomous AI agents, deterministic LLM pipelines, and end-to-end machine learning systems.",
+    images: ["/portfolio.jpg"],
+    creator: "@xavifar",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://xavifar.dev",
+  },
 };
-
-import { LanguageProvider } from "./context/LanguageContext";
 
 export default function RootLayout({
   children,
@@ -50,6 +117,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/icon.svg" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
