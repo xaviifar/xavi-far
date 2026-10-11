@@ -266,9 +266,9 @@ export default function AiChatbot() {
               setTimeout(() => inputRef.current?.focus(), 150);
             }}
             aria-label="Open AI Assistant"
-            className="group relative flex items-center gap-2.5 px-4 py-2.5 sm:px-4.5 sm:py-2.5 min-h-[44px] rounded-full bg-surface/98 dark:bg-neutral-900/98 backdrop-blur-xl border border-neutral-300 dark:border-neutral-700/80 hover:border-neutral-900 dark:hover:border-emerald-500/80 text-ink shadow-[0_8px_30px_rgb(0,0,0,0.15)] dark:shadow-[0_4px_28px_-2px_rgba(16,185,129,0.32)] transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95"
+            className="group relative flex items-center gap-2.5 px-4 py-2.5 sm:px-4.5 sm:py-2.5 min-h-[44px] rounded-full bg-surface/98 dark:bg-neutral-900/98 backdrop-blur-xl border border-neutral-300 dark:border-neutral-700/80 hover:border-neutral-900 dark:hover:border-neutral-500 text-ink shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95"
           >
-            {/* Live avatar thumbnail with status indicator */}
+            {/* Avatar thumbnail */}
             <div className="relative shrink-0 flex items-center justify-center">
               <div className="h-6 w-6 rounded-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 overflow-hidden flex items-center justify-center p-0.5 shadow-2xs">
                 <Image
@@ -279,21 +279,12 @@ export default function AiChatbot() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
             </div>
 
             {/* Button label */}
             <span className="text-[13px] sm:text-[13.5px] font-medium tracking-tight whitespace-nowrap">
               {lang === "es" ? "Preguntar a la IA" : "Ask Portfolio AI"}
             </span>
-
-            {/* Keyboard shortcut hint (desktop only) */}
-            <kbd className="hidden sm:inline-block ml-0.5 px-1.5 py-0.5 rounded text-[10px] font-mono bg-neutral-100 dark:bg-neutral-800 text-ink-muted border border-border">
-              ⌘K
-            </kbd>
           </button>
         )}
       </div>

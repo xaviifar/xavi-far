@@ -87,6 +87,7 @@ const INTENTS: IntentPattern[] = [
       "orchestration",
       "orquestacion",
       "orquestación",
+      "orbhi",
       "redis",
       "deterministic",
       "determinista",
@@ -289,7 +290,31 @@ const INTENTS: IntentPattern[] = [
         : ["How to contact me", "Download CV", "Why hire me?"],
   },
 
-  // 11. Greetings
+  // 11. Availability / Interviews
+  {
+    keywords: [
+      "entrevista",
+      "entrevistas",
+      "horario",
+      "schedule",
+      "interview",
+      "availability",
+      "disponibilidad horaria",
+      "reunion",
+      "reunión",
+      "call",
+    ],
+    reply: (lang) =>
+      lang === "es"
+        ? `Tengo disponibilidad preferentemente **por las tardes, a partir de las 15:30 (hora de Madrid, Europe/Madrid)**. Si necesitas una entrevista por la mañana, podemos valorarlo y acordarlo previamente. Puedes escribirme a [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com) para coordinar el horario.`
+        : `I am available preferably **in the afternoons, from 15:30 CET / Madrid time (Europe/Madrid)**. If you need a morning slot, we can discuss and arrange it in advance. You can reach out at [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com) to coordinate.`,
+    followUps: (lang) =>
+      lang === "es"
+        ? ["Contacto directo", "Descargar CV", "Stack técnico"]
+        : ["Direct contact", "Download CV", "Tech stack"],
+  },
+
+  // 12. Greetings
   {
     keywords: ["hola", "hello", "hi", "hey", "salut", "buenas", "buenos dias", "good morning"],
     reply: (lang) =>
