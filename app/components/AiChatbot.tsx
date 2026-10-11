@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import Image from "next/image";
 import { useLanguage } from "../context/LanguageContext";
 import {
   ChatMessage,
@@ -267,23 +268,22 @@ export default function AiChatbot() {
             aria-label="Open AI Assistant"
             className="group relative flex items-center gap-2.5 px-4 py-2.5 sm:px-4.5 sm:py-2.5 min-h-[44px] rounded-full bg-surface/98 dark:bg-neutral-900/98 backdrop-blur-xl border border-neutral-300 dark:border-neutral-700/80 hover:border-neutral-900 dark:hover:border-emerald-500/80 text-ink shadow-[0_8px_30px_rgb(0,0,0,0.15)] dark:shadow-[0_4px_28px_-2px_rgba(16,185,129,0.32)] transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95"
           >
-            {/* Live emerald beacon indicator */}
-            <span className="relative flex h-2.5 w-2.5 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-xs" />
-            </span>
-
-            {/* Sparkle AI icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="text-emerald-500 dark:text-emerald-400 shrink-0"
-            >
-              <path d="M12 2L14.39 9.61L22 12L14.39 14.39L12 22L9.61 14.39L2 12L9.61 9.61L12 2Z" />
-            </svg>
+            {/* Live avatar thumbnail with status indicator */}
+            <div className="relative shrink-0 flex items-center justify-center">
+              <div className="h-6 w-6 rounded-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 overflow-hidden flex items-center justify-center p-0.5 shadow-2xs">
+                <Image
+                  src="/avatar.svg"
+                  alt="Xavi Far"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+            </div>
 
             {/* Button label */}
             <span className="text-[13px] sm:text-[13.5px] font-medium tracking-tight whitespace-nowrap">
@@ -313,10 +313,18 @@ export default function AiChatbot() {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 sm:py-3.5 border-b border-border bg-neutral-50/70 dark:bg-neutral-900/70 select-none">
             <div className="flex items-center gap-2.5">
-              {/* Monogram avatar with AI node */}
-              <div className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-neutral-900 dark:bg-neutral-800 text-white font-mono text-[11px] font-bold border border-neutral-700/60 shadow-xs">
-                <span>XF</span>
-                <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-surface" />
+              {/* Vector avatar with AI online status node */}
+              <div className="relative shrink-0 flex items-center justify-center">
+                <div className="h-8.5 w-8.5 rounded-full bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 shadow-xs overflow-hidden flex items-center justify-center p-0.5">
+                  <Image
+                    src="/avatar.svg"
+                    alt="Xavi Far"
+                    width={34}
+                    height={34}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-neutral-50 dark:ring-neutral-900" />
               </div>
               <div className="flex flex-col">
                 <span className="font-sans text-[13.5px] font-semibold text-ink leading-tight flex items-center gap-1.5">
