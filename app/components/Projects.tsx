@@ -15,11 +15,6 @@ import {
   SiTensorflow,
   SiScikitlearn,
   SiPandas,
-  SiKotlin,
-  SiMysql,
-  SiOdoo,
-  SiFlask,
-  SiSelenium,
   SiFlutter,
   SiSupabase,
 } from "react-icons/si";
@@ -43,7 +38,7 @@ const projects: ProjectItem[] = [
       en: "Autonomous multi-agent orchestration system exploring deterministic tool-calling loops, Redis task queues, vector session memory, and containerized deployment with Docker.",
       es: "Sistema de orquestación multi-agente autónomo explorando bucles deterministas de tool-calling, colas Redis, memoria vectorial de sesión y despliegue en contenedores Docker.",
     },
-    image: "/img/ai_agent_platform.webp",
+    image: "/img/orbhi.webp?v=2",
     githubUrl: "https://github.com/xaviifar",
     stars: 0,
     tech: [
@@ -62,7 +57,7 @@ const projects: ProjectItem[] = [
       en: "AI-powered email assistant designed on LangGraph StateGraphs to understand, search, classify, and batch-triage messages with tool execution, OpenRouter LLMs, and ElevenLabs voice TTS.",
       es: "Asistente de correo con IA basado en StateGraphs de LangGraph para clasificar, buscar y organizar emails mediante ejecución de herramientas, LLMs de OpenRouter y síntesis por voz.",
     },
-    image: "/img/gmail_agent.webp",
+    image: "/img/gmail_agent.webp?v=2",
     githubUrl: "https://github.com/xaviifar/email_agent",
     repoName: "email_agent",
     stars: 0,
@@ -80,7 +75,7 @@ const projects: ProjectItem[] = [
       en: "Semantic search & legal document knowledge retrieval pipeline over Spanish Official State Gazette records combining sliding-window chunking, Qdrant vector database, and BM25 hybrid reranking.",
       es: "Pipeline de búsqueda semántica y recuperación documental sobre el Boletín Oficial del Estado combinando chunking por ventana deslizante, base vectorial Qdrant y reordenamiento híbrido BM25.",
     },
-    image: "/img/boe_rag.webp",
+    image: "/img/boe_rag.webp?v=2",
     githubUrl: "https://github.com/xaviifar/boe-rag",
     repoName: "boe-rag",
     stars: 0,
@@ -99,7 +94,7 @@ const projects: ProjectItem[] = [
       en: "NLP classification and customer sentiment analysis on Barcelona reviews, comparing custom lexicon-based logistic regression against Deep Learning TF-IDF Neural Networks with ROC curve evaluation.",
       es: "Clasificación NLP y análisis de sentimiento de clientes en reseñas de Barcelona, comparando regresión logística léxica frente a redes neuronales TF-IDF evaluadas con curvas ROC.",
     },
-    image: "/img/mcdonalds_sentiment.webp",
+    image: "/img/mcdonalds_sentiment.webp?v=2",
     githubUrl: "https://github.com/xaviifar/mcdonalds-review-sentiment-analysis",
     repoName: "mcdonalds-review-sentiment-analysis",
     stars: 0,
@@ -112,12 +107,12 @@ const projects: ProjectItem[] = [
   },
   {
     id: "05",
-    title: "4Party",
+    title: "Party",
     description: {
       en: "Social event & nightlife discovery mobile app recognized as Best DAM Project. Helps users see where friends go in real-time, explore venues like Razzmatazz, and browse live maps.",
       es: "Aplicación móvil social de ocio nocturno premiada como Mejor Proyecto de DAM. Permite descubrir a qué fiestas van tus amigos en tiempo real, explorar salas y consultar eventos.",
     },
-    image: "/img/fourparty_app.webp",
+    image: "/img/fourparty_app.webp?v=2",
     githubUrl: "https://github.com/xaviifar",
     stars: 0,
     tech: [
@@ -126,25 +121,9 @@ const projects: ProjectItem[] = [
       { name: "Supabase", icon: <SiSupabase className="w-[18px] h-[18px]" style={{ color: "#3ECF8E" }} /> },
     ],
   },
-  {
-    id: "06",
-    title: "Enterprise Odoo Automation",
-    description: {
-      en: "Production business automation suite engineered at ESDI Systems, uniting custom Odoo ERP models, Selenium scraping bots, SQL reconciliation, and OpenRouter LLM parsing.",
-      es: "Suite de automatización empresarial desarrollada en ESDI Systems que integra módulos Odoo ERP personalizados, bots de scraping con Selenium, conciliación SQL y análisis con LLMs.",
-    },
-    image: "/img/odoo_automation.webp",
-    githubUrl: "https://github.com/xaviifar",
-    stars: 0,
-    tech: [
-      { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
-      { name: "Odoo", icon: <SiOdoo className="w-[18px] h-[18px]" style={{ color: "#714B67" }} /> },
-      { name: "Flask", icon: <SiFlask className="w-[18px] h-[18px]" style={{ color: "#000000" }} /> },
-      { name: "Selenium", icon: <SiSelenium className="w-[18px] h-[18px]" style={{ color: "#43B02A" }} /> },
-      { name: "Docker", icon: <SiDocker className="w-[18px] h-[18px]" style={{ color: "#2496ED" }} /> },
-    ],
-  },
 ];
+
+
 
 export default function Projects() {
   const { lang } = useLanguage();

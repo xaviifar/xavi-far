@@ -87,7 +87,7 @@ const INTENTS: IntentPattern[] = [
       "orchestration",
       "orquestacion",
       "orquestación",
-      "orbhi",
+      ,
       "redis",
       "deterministic",
       "determinista",
@@ -145,7 +145,7 @@ const INTENTS: IntentPattern[] = [
         : ["AI Agent Platform", "Tech stack", "Direct contact"],
   },
 
-  // 5. McDonald's Sentiment & 4Party
+  // 5. McDonald's Sentiment & PARTY
   {
     keywords: [
       "mcdonald",
@@ -153,7 +153,6 @@ const INTENTS: IntentPattern[] = [
       "sentiment",
       "sentimiento",
       "nlp",
-      "4party",
       "party",
       "odoo",
       "projects",
@@ -161,8 +160,8 @@ const INTENTS: IntentPattern[] = [
     ],
     reply: (lang) =>
       lang === "es"
-        ? `Otros proyectos que he desarrollado:\n\n1. **McDonald's Sentiment Analysis:**\nPipeline de NLP sobre reseñas de clientes en Barcelona, comparando regresión logística frente a redes neuronales TF-IDF con evaluación ROC (AUC 0.941).\n\n2. **4Party:**\nMarketplace y plataforma móvil para Android en Kotlin con catálogo interactivo, carrito y sincronización con MySQL.\n\n3. **Enterprise Odoo Automation (ESDI Systems):**\nSuite de automatización empresarial con módulos Odoo ERP, scraping en Selenium, conciliación SQL y análisis con LLMs.`
-        : `Other projects I have built:\n\n1. **McDonald's Sentiment Analysis:**\nNLP customer review pipeline on Barcelona reviews, comparing logistic regression against TF-IDF Neural Networks (ROC AUC 0.941).\n\n2. **4Party:**\nEvent coordination Android mobile app written in native Kotlin with real-time MySQL synchronization.\n\n3. **Enterprise Odoo Automation (ESDI Systems):**\nProduction business automation integrating custom Odoo ERP models, Selenium bots, SQL reconciliation, and LLM parsing.`,
+        ? `Otros proyectos que he desarrollado:\n\n1. **McDonald's Sentiment Analysis:**\nPipeline de NLP sobre reseñas de clientes en Barcelona, comparando regresión logística frente a redes neuronales TF-IDF con evaluación ROC (AUC 0.941).\n\n2. **Party:**\nMarketplace y plataforma móvil para Android en Kotlin con catálogo interactivo, carrito y sincronización con MySQL.\n\n3. **Enterprise Odoo Automation (ESDI Systems):**\nSuite de automatización empresarial con módulos Odoo ERP, scraping en Selenium, conciliación SQL y análisis con LLMs.`
+        : `Other projects I have built:\n\n1. **McDonald's Sentiment Analysis:**\nNLP customer review pipeline on Barcelona reviews, comparing logistic regression against TF-IDF Neural Networks (ROC AUC 0.941).\n\n2. **Party:**\nEvent coordination Android mobile app written in native Kotlin with real-time MySQL synchronization.\n\n3. **Enterprise Odoo Automation (ESDI Systems):**\nProduction business automation integrating custom Odoo ERP models, Selenium bots, SQL reconciliation, and LLM parsing.`,
     followUps: (lang) =>
       lang === "es"
         ? ["Plataforma Multi-Agente", "Stack técnico", "Experiencia laboral"]
