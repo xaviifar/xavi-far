@@ -22,10 +22,20 @@ export default function AiChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const [conversationHistory, setConversationHistory] = useState<ChatMessage[]>([]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Countdown timer when rate-limited
+  useEffect(() => {
+    if (cooldownSeconds <= 0) return;
+    const timer = setInterval(() => {
+      setCooldownSeconds((prev) => (prev > 1 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldownSeconds]);
 
   // Initial greeting derived from current language (first person persona)
   const greetingMsg: ChatMessage = useMemo(
@@ -88,8 +98,8 @@ export default function AiChatbot() {
   }, [messages, isTyping, isOpen]);
 
   const handleSend = async (textToSend?: string) => {
-    const query = (textToSend ?? input).trim();
-    if (!query || isTyping) return;
+    const query = (textToSend ?? input).trim().slice(0, 500);
+    if (!query || isTyping || cooldownSeconds > 0) return;
 
     const userMsg: ChatMessage = {
       id: getNextMsgId("user"),
@@ -118,6 +128,26 @@ export default function AiChatbot() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: apiPayload, lang }),
       });
+
+      if (res.status === 429) {
+        const data = await res.json().catch(() => ({}));
+        const retrySec = Number(data.retryAfter) || 15;
+        setCooldownSeconds(retrySec);
+        const rateLimitMsg: ChatMessage = {
+          id: getNextMsgId("bot"),
+          sender: "bot",
+          text:
+            lang === "es"
+              ? data.text ||
+                `Has enviado demasiados mensajes seguidos. Espera ${retrySec}s antes de volver a preguntar.`
+              : data.textEn ||
+                `You've sent too many messages in a row. Please wait ${retrySec}s before asking again.`,
+          timestamp: "",
+          source: "local",
+        };
+        setConversationHistory((prev) => [...prev, rateLimitMsg]);
+        return;
+      }
 
       if (res.ok) {
         const data = await res.json();
@@ -411,8 +441,8 @@ export default function AiChatbot() {
                           key={i}
                           type="button"
                           onClick={() => handleSend(sug)}
-                          disabled={isTyping}
-                          className="font-mono text-[12px] sm:text-[11px] px-3 py-1.5 sm:px-2.5 sm:py-1 rounded-full bg-surface hover:bg-neutral-100 dark:hover:bg-neutral-800 text-ink-muted hover:text-ink hover:border-neutral-400 dark:hover:border-neutral-600 border border-border transition-all cursor-pointer text-left flex items-center gap-1 active:scale-95"
+                          disabled={isTyping || cooldownSeconds > 0}
+                          className="font-mono text-[12px] sm:text-[11px] px-3 py-1.5 sm:px-2.5 sm:py-1 rounded-full bg-surface hover:bg-neutral-100 dark:hover:bg-neutral-800 text-ink-muted hover:text-ink hover:border-neutral-400 dark:hover:border-neutral-600 border border-border transition-all cursor-pointer text-left flex items-center gap-1 active:scale-95 disabled:opacity-45 disabled:pointer-events-none"
                         >
                           <span className="text-emerald-500">✦</span>
                           <span>{sug}</span>
@@ -454,19 +484,24 @@ export default function AiChatbot() {
               <input
                 ref={inputRef}
                 type="text"
+                maxLength={500}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={
-                  lang === "es"
+                  cooldownSeconds > 0
+                    ? lang === "es"
+                      ? `Límite alcanzado · espera ${cooldownSeconds}s...`
+                      : `Rate limit reached · wait ${cooldownSeconds}s...`
+                    : lang === "es"
                     ? "Pregúntame sobre proyectos, stack o CV..."
                     : "Ask me about projects, stack, or CV..."
                 }
-                className="flex-1 bg-surface border border-border rounded-xl px-3.5 py-2.5 sm:py-2 text-[16px] sm:text-[13px] text-ink placeholder:text-ink-faint focus:outline-hidden focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors font-sans"
-                disabled={isTyping}
+                className="flex-1 bg-surface border border-border rounded-xl px-3.5 py-2.5 sm:py-2 text-[16px] sm:text-[13px] text-ink placeholder:text-ink-faint focus:outline-hidden focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors font-sans disabled:opacity-50"
+                disabled={isTyping || cooldownSeconds > 0}
               />
               <button
                 type="submit"
-                disabled={!input.trim() || isTyping}
+                disabled={!input.trim() || isTyping || cooldownSeconds > 0}
                 aria-label="Send message"
                 className="shrink-0 p-2.5 sm:p-2 rounded-xl bg-ink text-bg font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:opacity-90 transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-xs min-h-[40px] min-w-[40px]"
               >
@@ -488,8 +523,18 @@ export default function AiChatbot() {
             </form>
             <div className="flex items-center justify-between mt-2 px-1 font-mono text-[10px] text-ink-faint">
               <span className="flex items-center gap-1">
-                <span className="h-1 w-1 rounded-full bg-emerald-500" />
-                <span>OpenRouter AI · Multi-model</span>
+                <span
+                  className={`h-1 w-1 rounded-full ${
+                    cooldownSeconds > 0 ? "bg-amber-500" : "bg-emerald-500"
+                  }`}
+                />
+                <span>
+                  {cooldownSeconds > 0
+                    ? lang === "es"
+                      ? `Rate limit activo (${cooldownSeconds}s)`
+                      : `Rate limit active (${cooldownSeconds}s)`
+                    : "OpenRouter AI · Multi-model"}
+                </span>
               </span>
               <span className="hidden sm:inline">Enter ↵</span>
             </div>

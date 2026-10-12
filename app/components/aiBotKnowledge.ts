@@ -87,7 +87,6 @@ const INTENTS: IntentPattern[] = [
       "orchestration",
       "orquestacion",
       "orquestación",
-      ,
       "redis",
       "deterministic",
       "determinista",

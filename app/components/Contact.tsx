@@ -8,7 +8,9 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const [handle, setHandle] = useState("");
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [website, setWebsite] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [statusFeedback, setStatusFeedback] = useState("");
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("xavifarmartinez@gmail.com");
@@ -16,23 +18,72 @@ export default function Contact() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() || status === "sending") return;
 
-    // Trigger user mail client or confirmation
-    const subject = encodeURIComponent(
-      `Message from Portfolio: ${handle || "Contact"}`
-    );
-    const body = encodeURIComponent(message);
-    window.location.href = `mailto:xavifarmartinez@gmail.com?subject=${subject}&body=${body}`;
+    setStatus("sending");
+    setStatusFeedback("");
 
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setMessage("");
-      setHandle("");
-    }, 3500);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          handle: handle.trim(),
+          message: message.trim(),
+          website,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        setStatus("sent");
+        setStatusFeedback(
+          lang === "es"
+            ? "¡Mensaje enviado directamente a Xavi!"
+            : "Message sent directly to Xavi!"
+        );
+        setMessage("");
+        setHandle("");
+        setTimeout(() => {
+          setStatus("idle");
+          setStatusFeedback("");
+        }, 4500);
+      } else if (res.status === 429) {
+        setStatus("error");
+        setStatusFeedback(
+          lang === "es"
+            ? data.messageEs || "Demasiados intentos. Espera un momento."
+            : data.messageEn || "Too many attempts. Please wait a moment."
+        );
+      } else {
+        // Fallback to mailto if no external provider could deliver
+        const subject = encodeURIComponent(
+          `Message from Portfolio: ${handle || "Contact"}`
+        );
+        const body = encodeURIComponent(message);
+        window.location.href = `mailto:xavifarmartinez@gmail.com?subject=${subject}&body=${body}`;
+        setStatus("sent");
+        setStatusFeedback(
+          lang === "es"
+            ? "¡Abriendo cliente de correo para enviar!"
+            : "Opening mail client to send!"
+        );
+        setTimeout(() => {
+          setStatus("idle");
+          setStatusFeedback("");
+        }, 4000);
+      }
+    } catch {
+      setStatus("error");
+      setStatusFeedback(
+        lang === "es"
+          ? "Error de red al enviar. Inténtalo de nuevo."
+          : "Network error while sending. Please try again."
+      );
+    }
   };
 
   return (
@@ -161,36 +212,72 @@ export default function Contact() {
         {/* Right Side: Message Card Form */}
         <div className="w-full flex-1 rounded-xl border border-neutral-200 dark:border-neutral-800 p-3.5 sm:p-4 bg-bg/90 backdrop-blur-xs">
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+            {/* Hidden honeypot for anti-spam */}
+            <input
+              type="text"
+              name="website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+            />
             <input
               type="text"
               value={handle}
               onChange={(e) => setHandle(e.target.value)}
+              disabled={status === "sending"}
               placeholder={lang === "es" ? "Tu email o @usuario" : "Your email or @handle"}
-              className="w-full bg-transparent border border-neutral-200/60 dark:border-neutral-800/60 rounded-md px-3 py-1.5 text-[13px] text-ink placeholder:text-ink-muted/50 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors font-mono"
+              className="w-full bg-transparent border border-neutral-200/60 dark:border-neutral-800/60 rounded-md px-3 py-1.5 text-[13px] text-ink placeholder:text-ink-muted/50 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors font-mono disabled:opacity-50"
             />
             <textarea
               rows={2}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              disabled={status === "sending"}
               placeholder={lang === "es" ? "Escribe un mensaje breve..." : "Write a quick message..."}
               required
-              className="w-full bg-transparent border border-neutral-200/60 dark:border-neutral-800/60 rounded-md px-3 py-1.5 text-[13px] text-ink placeholder:text-ink-muted/50 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors resize-none leading-relaxed"
+              className="w-full bg-transparent border border-neutral-200/60 dark:border-neutral-800/60 rounded-md px-3 py-1.5 text-[13px] text-ink placeholder:text-ink-muted/50 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors resize-none leading-relaxed disabled:opacity-50"
             />
-            <div className="flex items-center justify-between pt-0.5 min-h-[28px]">
-              <span className="font-mono text-[10.5px] text-ink-muted/70">
-                {submitted
+            <div className="flex items-center justify-between pt-0.5 min-h-[28px] gap-2">
+              <span
+                className={`font-mono text-[10.5px] transition-colors ${
+                  status === "sent"
+                    ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                    : status === "error"
+                    ? "text-red-500 dark:text-red-400"
+                    : "text-ink-muted/70"
+                }`}
+              >
+                {statusFeedback
+                  ? statusFeedback
+                  : status === "sending"
                   ? lang === "es"
-                    ? "¡Mensaje preparado en el cliente de correo!"
-                    : "Message drafted in mail client!"
+                    ? "Enviando mensaje..."
+                    : "Sending message..."
                   : lang === "es"
                   ? "Mensaje directo"
                   : "Direct message"}
               </span>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/60 px-3 py-1 font-mono text-[11.5px] text-ink transition-all duration-150 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 cursor-pointer group"
+                disabled={status === "sending" || !message.trim()}
+                className="inline-flex items-center gap-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/60 px-3 py-1 font-mono text-[11.5px] text-ink transition-all duration-150 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 cursor-pointer group disabled:opacity-50 disabled:pointer-events-none"
               >
-                <span>{lang === "es" ? "Enviar" : "Send"}</span>
+                <span>
+                  {status === "sending"
+                    ? lang === "es"
+                      ? "Enviando..."
+                      : "Sending..."
+                    : status === "sent"
+                    ? lang === "es"
+                      ? "Enviado ✓"
+                      : "Sent ✓"
+                    : lang === "es"
+                    ? "Enviar"
+                    : "Send"}
+                </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
