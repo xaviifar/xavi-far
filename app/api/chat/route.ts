@@ -3,6 +3,8 @@ import { openRouterClient } from "@/lib/openrouter";
 import { generateBotResponse } from "@/app/components/aiBotKnowledge";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
+export const dynamic = "force-dynamic";
+
 const PER_MINUTE_LIMIT = Number(process.env.CHAT_RATE_LIMIT_PER_MIN) || 8;
 const PER_HOUR_LIMIT = Number(process.env.CHAT_RATE_LIMIT_PER_HOUR) || 30;
 const MAX_MESSAGE_CHARS = 500;

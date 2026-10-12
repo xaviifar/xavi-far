@@ -1,8 +1,8 @@
 /**
  * OpenRouter AI Client for Xavi Far's Portfolio
  *
- * Configured to represent Xavi Far in the first person ("que responde por mí"),
- * answering queries about his background, agentic architectures, projects, and stack.
+ * Configured to act as Xavi Far's professional assistant, answering queries
+ * about his background, agentic architectures, projects, and stack.
  */
 
 export interface OpenRouterMessage {
@@ -29,66 +29,84 @@ export interface OpenRouterResponse {
 }
 
 /**
- * Free-tier OpenRouter models rotated in order of quality & latency.
+ * Verified active models on OpenRouter rotated in order of speed & quality.
+ * "openai/gpt-6-luna" is first so it works out-of-the-box on Vercel even if
+ * OPENROUTER_MODEL is not defined in Vercel's environment variables.
  */
 export const DEFAULT_FREE_MODELS = [
-  "google/gemini-2.0-flash-lite-preview-02-05:free",
-  "meta-llama/llama-3.3-70b-instruct:free",
-  "qwen/qwen-2.5-coder-32b-instruct:free",
-  "deepseek/deepseek-r1:free",
-  "mistralai/mistral-7b-instruct:free",
-  "meta-llama/llama-3.2-3b-instruct:free",
+  "openai/gpt-6-luna",
+  "nvidia/nemotron-3.5-lightning:free",
+  "liquid/lfm-2.5-2.6b:free",
+  "google/gemma-4-31b-it:free",
+  "google/gemma-4-26b-a4b-it:free",
 ];
 
 export { SYSTEM_PROMPT, getSystemPrompt } from "@/prompts/systemPrompt";
 import { getSystemPrompt } from "@/prompts/systemPrompt";
 
+function cleanEnvValue(val: string | undefined): string | undefined {
+  if (!val) return undefined;
+  return val.trim().replace(/^["']|["']$/g, "").trim() || undefined;
+}
+
 export class OpenRouterClient {
-  private apiKey: string | undefined;
   private siteUrl: string;
   private siteTitle: string;
-  private candidateModels: string[];
 
   constructor(options?: {
-    apiKey?: string;
     siteUrl?: string;
     siteTitle?: string;
-    candidateModels?: string[];
   }) {
-    this.apiKey = options?.apiKey ?? process.env.OPENROUTER_API_KEY;
-    this.siteUrl = options?.siteUrl ?? "https://xavifar.dev";
+    this.siteUrl = options?.siteUrl ?? "https://xavifar.vercel.app";
     this.siteTitle = options?.siteTitle ?? "Xavi Far Portfolio";
+  }
 
-    const customModel = process.env.OPENROUTER_MODEL?.trim();
-    const baseModels = options?.candidateModels ?? DEFAULT_FREE_MODELS;
-    this.candidateModels = customModel
-      ? [customModel, ...baseModels.filter((m) => m !== customModel)]
-      : baseModels;
+  private resolveApiKey(): string | undefined {
+    return (
+      cleanEnvValue(process.env.OPENROUTER_API_KEY) ??
+      cleanEnvValue(process.env.NEXT_PUBLIC_OPENROUTER_API_KEY) ??
+      cleanEnvValue(process.env.OPENROUTER_KEY)
+    );
+  }
+
+  private resolveCandidateModels(explicitModel?: string): string[] {
+    const envModel =
+      cleanEnvValue(process.env.OPENROUTER_MODEL) ??
+      cleanEnvValue(process.env.NEXT_PUBLIC_OPENROUTER_MODEL);
+
+    const ordered = [
+      explicitModel,
+      envModel,
+      ...DEFAULT_FREE_MODELS,
+    ].filter((m): m is string => Boolean(m && m.length > 0));
+
+    return Array.from(new Set(ordered));
   }
 
   /**
-   * Check whether a valid OpenRouter API key is configured.
+   * Check whether a valid OpenRouter API key is configured at runtime.
    */
   public isConfigured(): boolean {
-    return Boolean(this.apiKey && this.apiKey.trim().length > 0);
+    return Boolean(this.resolveApiKey());
   }
 
   /**
-   * Perform a chat completion call with automatic model rotation across free models.
+   * Perform a chat completion call with automatic model rotation across active models.
    */
   public async chat(params: {
     messages: Array<{ role: string; content: string }>;
     lang?: "es" | "en";
     options?: OpenRouterChatOptions;
   }): Promise<OpenRouterResponse | null> {
-    const key = this.apiKey ?? process.env.OPENROUTER_API_KEY;
+    const key = this.resolveApiKey();
     if (!key) {
+      console.warn("[OpenRouter] Missing OPENROUTER_API_KEY environment variable.");
       return null;
     }
 
     const systemPrompt = getSystemPrompt();
-    const timeoutMs = params.options?.timeoutMs ?? 14000;
-    const maxTokens = params.options?.maxTokens ?? 650;
+    const timeoutMs = params.options?.timeoutMs ?? 15000;
+    const maxTokens = params.options?.maxTokens ?? 700;
     const temperature = params.options?.temperature ?? 0.4;
 
     // Filter and sanitize conversation messages
@@ -102,17 +120,14 @@ export class OpenRouterClient {
         })),
     ];
 
-    // Models to attempt: specific requested model or fallbacks
-    const modelsToTry = params.options?.model
-      ? [params.options.model, ...this.candidateModels.filter((m) => m !== params.options?.model)]
-      : this.candidateModels;
+    const modelsToTry = this.resolveCandidateModels(params.options?.model);
 
     for (const model of modelsToTry) {
       try {
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": `Bearer ${key}`,
+            Authorization: `Bearer ${key}`,
             "HTTP-Referer": this.siteUrl,
             "X-Title": this.siteTitle,
             "Content-Type": "application/json",
@@ -123,11 +138,15 @@ export class OpenRouterClient {
             temperature,
             max_tokens: maxTokens,
           }),
+          cache: "no-store",
           signal: AbortSignal.timeout(timeoutMs),
         });
 
         if (!response.ok) {
-          // Log and continue to next fallback model
+          const errText = await response.text().catch(() => "");
+          console.warn(
+            `[OpenRouter] Model ${model} returned HTTP ${response.status}: ${errText.slice(0, 200)}`
+          );
           continue;
         }
 
@@ -146,8 +165,8 @@ export class OpenRouterClient {
             },
           };
         }
-      } catch {
-        // Timeout or fetch error -> attempt next model
+      } catch (err) {
+        console.warn(`[OpenRouter] Model ${model} request error:`, err);
         continue;
       }
     }

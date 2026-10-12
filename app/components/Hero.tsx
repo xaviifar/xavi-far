@@ -154,8 +154,9 @@ export default function Hero() {
           <span className="text-neutral-900 dark:text-neutral-100 font-medium">SQL</span>,{" "}
           <span className="text-neutral-900 dark:text-neutral-100 font-medium">LangGraph / LangChain</span>,{" "}
           <span className="text-neutral-900 dark:text-neutral-100 font-medium">PostgreSQL</span>{" "}
-          {isEs ? "y " : "and "}
-          <span className="text-neutral-900 dark:text-neutral-100 font-medium">Docker</span>.
+          <span className="text-neutral-900 dark:text-neutral-100 font-medium">Docker</span>{" "}
+          {isEs ? "y mucho más" : "and more "}.
+
         </p>
 
         <p>

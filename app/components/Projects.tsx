@@ -47,7 +47,6 @@ const projects: ProjectItem[] = [
       { name: "Redis", icon: <SiRedis className="w-[18px] h-[18px]" style={{ color: "#DC382D" }} /> },
       { name: "PostgreSQL", icon: <SiPostgresql className="w-[18px] h-[18px]" style={{ color: "#4169E1" }} /> },
       { name: "Docker", icon: <SiDocker className="w-[18px] h-[18px]" style={{ color: "#2496ED" }} /> },
-      { name: "LangChain", icon: <SiLangchain className="w-[18px] h-[18px] text-ink" /> },
     ],
   },
   {

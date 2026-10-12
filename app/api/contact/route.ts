@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
+export const dynamic = "force-dynamic";
+
 const RECIPIENT_EMAIL = process.env.CONTACT_EMAIL || "xavifarmartinez@gmail.com";
 const CONTACT_LIMIT_PER_10_MIN = 3;
 
