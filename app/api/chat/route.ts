@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
 
     const lastUserMessage = messages[messages.length - 1]?.content || "";
 
-    // Attempt to invoke the OpenRouter client (acts as Xavi Far in the first person)
     const openRouterResult = await openRouterClient.chat({
       messages,
       lang: lang === "es" ? "es" : "en",

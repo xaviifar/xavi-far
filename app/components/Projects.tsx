@@ -20,6 +20,8 @@ import {
   SiOdoo,
   SiFlask,
   SiSelenium,
+  SiFlutter,
+  SiSupabase,
 } from "react-icons/si";
 
 interface ProjectItem {
@@ -112,16 +114,16 @@ const projects: ProjectItem[] = [
     id: "05",
     title: "4Party",
     description: {
-      en: "Event coordination and party supply marketplace Android mobile application featuring native catalog discovery, real-time cart, item favorites, and backend MySQL database synchronization.",
-      es: "Aplicación móvil Android para coordinación y compra de suministros para eventos con catálogo interactivo, carrito en tiempo real, favoritos y sincronización con MySQL.",
+      en: "Social event & nightlife discovery mobile app recognized as Best DAM Project. Helps users see where friends go in real-time, explore venues like Razzmatazz, and browse live maps.",
+      es: "Aplicación móvil social de ocio nocturno premiada como Mejor Proyecto de DAM. Permite descubrir a qué fiestas van tus amigos en tiempo real, explorar salas y consultar eventos.",
     },
-    image: "/img/fourparty_preview.webp",
+    image: "/img/fourparty_app.webp",
     githubUrl: "https://github.com/xaviifar",
     stars: 0,
     tech: [
-      { name: "Kotlin", icon: <SiKotlin className="w-[18px] h-[18px]" style={{ color: "#7F52FF" }} /> },
-      { name: "MySQL", icon: <SiMysql className="w-[18px] h-[18px]" style={{ color: "#4479A1" }} /> },
+      { name: "Flutter", icon: <SiFlutter className="w-[18px] h-[18px]" style={{ color: "#02569B" }} /> },
       { name: "Python", icon: <SiPython className="w-[18px] h-[18px]" style={{ color: "#3776AB" }} /> },
+      { name: "Supabase", icon: <SiSupabase className="w-[18px] h-[18px]" style={{ color: "#3ECF8E" }} /> },
     ],
   },
   {

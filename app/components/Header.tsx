@@ -51,8 +51,8 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("home");
 
   const navLinks = [
-    { id: "home", label: lang === "es" ? "Inicio" : "Home", href: "#" },
-    { id: "about", label: lang === "es" ? "Sobre mí" : "About", href: "#about" },
+    { id: "home", label: lang === "es" ? "Inicio" : "Home", href: "#", hideOnMobile: true },
+    { id: "about", label: lang === "es" ? "Sobre mí" : "About", href: "#about", hideOnMobile: true },
     { id: "projects", label: lang === "es" ? "Proyectos" : "Projects", href: "#projects" },
     { id: "experience", label: lang === "es" ? "Experiencia" : "Experience", href: "#experience" },
   ];
@@ -98,6 +98,8 @@ export default function Header() {
               key={link.id}
               href={link.href}
               className={`shrink-0 transition-colors duration-200 cursor-pointer ${
+                link.hideOnMobile ? "hidden sm:inline-block" : ""
+              } ${
                 isActive
                   ? "text-ink font-medium"
                   : "text-ink-muted hover:text-ink font-normal"

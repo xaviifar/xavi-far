@@ -85,6 +85,11 @@ export default function ActivitySection() {
   const { initialDays, initialTotal } = useMemo(() => generateInitialData(), []);
   const [contributions, setContributions] = useState<Activity[]>(initialDays);
   const [totalCount, setTotalCount] = useState<number>(initialTotal);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Fetch real GitHub contribution data for user "xaviifar"
   useEffect(() => {
@@ -137,40 +142,44 @@ export default function ActivitySection() {
       <div className="relative">
         <div className="flex w-full flex-col gap-3">
           <div className="w-full overflow-x-auto sm:overflow-visible no-scrollbar">
-            <div className="min-w-[680px] sm:min-w-0 w-full flex justify-center">
-              <ActivityCalendar
-                data={contributions}
-                blockSize={10.5}
-                blockMargin={2.5}
-                blockRadius={2}
-                fontSize={10.5}
-                theme={calendarTheme}
-                colorScheme={isDark ? "dark" : "light"}
-                showColorLegend={false}
-                showTotalCount={false}
-                showWeekdayLabels={false}
-                labels={{
-                  months: lang === "es" ? monthsEs : monthsEn,
-                }}
-                renderBlock={(block, activity) =>
-                  React.cloneElement(block, {
-                    className: `${block.props.className ?? ""} transition-opacity duration-150 cursor-pointer hover:opacity-75`,
-                    children: (
-                      <title>
-                        {activity.count}{" "}
-                        {lang === "es"
-                          ? activity.count === 1
-                            ? "contribución el"
-                            : "contribuciones el"
-                          : activity.count === 1
-                          ? "contribution on"
-                          : "contributions on"}{" "}
-                        {activity.date}
-                      </title>
-                    ),
-                  })
-                }
-              />
+            <div className="min-w-[680px] sm:min-w-0 w-full flex justify-center min-h-[120px]">
+              {mounted ? (
+                <ActivityCalendar
+                  data={contributions}
+                  blockSize={10.5}
+                  blockMargin={2.5}
+                  blockRadius={2}
+                  fontSize={10.5}
+                  theme={calendarTheme}
+                  colorScheme={isDark ? "dark" : "light"}
+                  showColorLegend={false}
+                  showTotalCount={false}
+                  showWeekdayLabels={false}
+                  labels={{
+                    months: lang === "es" ? monthsEs : monthsEn,
+                  }}
+                  renderBlock={(block, activity) =>
+                    React.cloneElement(block, {
+                      className: `${block.props.className ?? ""} transition-opacity duration-150 cursor-pointer hover:opacity-75`,
+                      children: (
+                        <title>
+                          {activity.count}{" "}
+                          {lang === "es"
+                            ? activity.count === 1
+                              ? "contribución el"
+                              : "contribuciones el"
+                            : activity.count === 1
+                            ? "contribution on"
+                            : "contributions on"}{" "}
+                          {activity.date}
+                        </title>
+                      ),
+                    })
+                  }
+                />
+              ) : (
+                <div className="w-full h-[120px] opacity-40 rounded-md" />
+              )}
             </div>
           </div>
 
