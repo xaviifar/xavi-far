@@ -493,8 +493,8 @@ export default function AiChatbot() {
                       ? `Límite alcanzado · espera ${cooldownSeconds}s...`
                       : `Rate limit reached · wait ${cooldownSeconds}s...`
                     : lang === "es"
-                    ? "Pregúntame sobre proyectos, stack o CV..."
-                    : "Ask me about projects, stack, or CV..."
+                    ? "Pregunta sobre Xavi, sus proyectos o stack..."
+                    : "Ask about Xavi, his projects, or stack..."
                 }
                 className="flex-1 bg-surface border border-border rounded-xl px-3.5 py-2.5 sm:py-2 text-[16px] sm:text-[13px] text-ink placeholder:text-ink-faint focus:outline-hidden focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors font-sans disabled:opacity-50"
                 disabled={isTyping || cooldownSeconds > 0}
