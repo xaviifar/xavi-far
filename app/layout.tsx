@@ -27,19 +27,19 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://xavifar.dev"),
   title: {
-    default: "Xavi Far · AI Systems & Autonomous Agents Engineer",
+    default: "Xavi Far · AI Software Engineer",
     template: "%s | Xavi Far",
   },
   description:
-    "Portfolio of Xavi Far — AI Systems Developer & Engineer specializing in autonomous multi-agent architectures, LangGraph, RAG pipelines, and end-to-end machine learning infrastructure.",
+    "Portfolio of Xavi Far — AI Software Engineer specializing in autonomous multi-agent architectures, LangGraph, RAG pipelines, and end-to-end machine learning infrastructure.",
   applicationName: "Xavi Far Portfolio",
   authors: [{ name: "Xavi Far", url: "https://github.com/xaviifar" }],
   creator: "Xavi Far",
   publisher: "Xavi Far",
   keywords: [
     "Xavi Far",
+    "AI Software Engineer",
     "AI Engineer",
-    "AI Systems Developer",
     "Autonomous Agents",
     "Multi-Agent Systems",
     "LangGraph",
@@ -62,17 +62,17 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Xavi Far · AI Systems & Autonomous Agents Engineer",
+    title: "Xavi Far · AI Software Engineer",
     description:
-      "AI Systems Developer specializing in autonomous AI agents, machine learning pipelines, and Big Data infrastructure.",
+      "AI Software Engineer specializing in autonomous AI agents, machine learning pipelines, and Big Data infrastructure.",
     url: "https://xavifar.dev",
-    siteName: "Xavi Far · AI Systems Engineer",
+    siteName: "Xavi Far · AI Software Engineer",
     images: [
       {
         url: "/portfolio.jpg",
         width: 1200,
         height: 630,
-        alt: "Xavi Far — AI Systems Engineer",
+        alt: "Xavi Far — AI Software Engineer",
       },
     ],
     locale: "en_US",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Xavi Far · AI Systems & Autonomous Agents Engineer",
+    title: "Xavi Far · AI Software Engineer",
     description:
       "Building autonomous AI agents, deterministic LLM pipelines, and end-to-end machine learning systems.",
     images: ["/portfolio.jpg"],

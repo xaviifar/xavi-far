@@ -16,7 +16,6 @@ export const INITIAL_SUGGESTIONS_EN = [
   "Who is Xavi and what does he do?",
   "Tell me about his AI Agent Platform",
   "What is his core tech stack?",
-  "Why should we hire Xavi?",
   "How can I contact Xavi?",
 ];
 
@@ -24,7 +23,6 @@ export const INITIAL_SUGGESTIONS_ES = [
   "¿Quién es Xavi y a qué se dedica?",
   "Háblame de su plataforma de agentes IA",
   "¿Cuál es su stack tecnológico?",
-  "¿Por qué debería contratar a Xavi?",
   "¿Cómo puedo contactar con Xavi?",
 ];
 
@@ -73,8 +71,8 @@ const INTENTS: IntentPattern[] = [
         : `**Xavi Far** is an **AI Systems Developer & Engineer** based in Barcelona / Catalonia, Spain.\n\nHe focuses on **production-grade autonomous AI agents with deterministic state loops**, vector memory architectures (RAG), Redis-backed queues, and containerized backend systems.\n\nHe blends specialized training in **AI & Big Data** with multi-platform software development and Linux systems administration. Pragmatic, code-first, and zero hallucination.`,
     followUps: (lang) =>
       lang === "es"
-        ? ["Plataforma Multi-Agente", "Stack tecnológico", "¿Por qué contratar a Xavi?"]
-        : ["AI Agent Platform", "Tech stack", "Why hire Xavi?"],
+        ? ["Plataforma Multi-Agente", "Stack tecnológico", "Experiencia laboral"]
+        : ["AI Agent Platform", "Tech stack", "Work experience"],
   },
 
   // 2. Multi-Agent Platform
@@ -225,31 +223,24 @@ const INTENTS: IntentPattern[] = [
         : ["Tech stack", "Education", "Download CV"],
   },
 
-  // 8. Why Hire Him?
+  // 8. Strengths & Technical Approach
   {
     keywords: [
-      "hire",
-      "contratar",
-      "fichar",
-      "why hire",
-      "why hire xavi",
-      "por que contratar",
-      "por qué contratar",
-      "porque contratar",
-      "por que debo contratar",
-      "por qué debo contratar",
-      "porque debo contratar",
-      "por que contratar a xavi",
-      "por qué contratar a xavi",
-      "porque contratar a xavi",
-      "ventajas",
       "puntos fuertes",
       "fortalezas",
+      "ventajas",
+      "enfoque",
+      "filosofia",
+      "filosofía",
+      "strengths",
+      "contratar",
+      "hire",
+      "fichar",
     ],
     reply: (lang) =>
       lang === "es"
-        ? `**Por qué contar con Xavi en tu equipo:**\n\n1. **Enfoque en producción:** Construye **sistemas de agentes deterministas**, maneja colas en Redis y define esquemas estrictos de tool-calling para evitar fallos o bucles infinitos.\n2. **Visión integral:** Domina el pipeline de datos completo, desde la ingesta y embeddings hasta la infraestructura de despliegue con Docker y bases SQL.\n3. **Pragmatismo técnico:** Resuelve con código eficiente y directo, aplicando modelos de lenguaje donde realmente aportan valor cuantificable.\n4. **Rigor y autonomía:** Capacidad demostrada para analizar requerimientos complejos y entregar soluciones de software estables.`
-        : `**Why bring Xavi onto your team:**\n\n1. **Production Mindset:** He builds **deterministic state loops**, manages Redis worker queues, and enforces strict JSON schemas for safe tool calling.\n2. **Full-Pipeline Vision:** He understands the entire lifecycle: from data ingestion and embeddings to Dockerized deployment and relational databases.\n3. **Pragmatic Engineering:** He writes clean code where sufficient, and leverages AI models where they create measurable business value.\n4. **Autonomy & Rigor:** Proven ability to unpack complex specifications and deliver reliable, maintainable software systems.`,
+        ? `Actualmente Xavi no está en búsqueda activa de empleo. Sus puntos fuertes y enfoque como ingeniero son:\n\n1. **Enfoque en producción:** Construye **sistemas de agentes deterministas**, maneja colas en Redis y define esquemas estrictos de tool-calling para evitar fallos o bucles infinitos.\n2. **Visión integral:** Domina el pipeline de datos completo, desde la ingesta y embeddings hasta la infraestructura con Docker y bases SQL.\n3. **Pragmatismo técnico:** Resuelve con código eficiente y directo, aplicando IA donde realmente aporta valor medible.\n4. **Rigor y autonomía:** Capacidad para estructurar arquitecturas complejas y entregar software robusto.`
+        : `Xavi is currently not actively looking for employment. His core strengths and engineering mindset are:\n\n1. **Production Mindset:** He builds **deterministic state loops**, manages Redis worker queues, and enforces strict JSON schemas for safe tool calling.\n2. **Full-Pipeline Vision:** He understands the entire lifecycle: from data ingestion and embeddings to Dockerized deployment and relational databases.\n3. **Pragmatic Engineering:** He writes clean code where sufficient, and leverages AI models where they create measurable business value.\n4. **Autonomy & Rigor:** Proven ability to unpack complex specifications and deliver reliable, maintainable software systems.`,
     followUps: (lang) =>
       lang === "es"
         ? ["Contacto directo", "Descargar CV", "Stack tecnológico"]
@@ -294,19 +285,18 @@ const INTENTS: IntentPattern[] = [
       "cataluña",
       "remoto",
       "remote",
-      "disponibilidad",
     ],
     reply: (lang) =>
       lang === "es"
-        ? `Xavi está ubicado en **Barcelona / Cataluña (España)**, disponible para posiciones en remoto, híbridas o presenciales enfocadas en ingeniería de sistemas de IA, agentes autónomos y arquitectura de datos.`
-        : `Xavi is based in **Barcelona / Catalonia (Spain)**, open to remote, hybrid, or on-site opportunities in AI engineering, autonomous systems, and backend data infrastructure.`,
+        ? `Xavi está afincado en **Barcelona / Cataluña (España)**, enfocado en el desarrollo e investigación de sistemas de agentes de IA, arquitecturas de datos y automatización.`
+        : `Xavi is based in **Barcelona / Catalonia (Spain)**, focusing on AI agent systems engineering, data pipelines, and intelligent automation.`,
     followUps: (lang) =>
       lang === "es"
-        ? ["Contactar con Xavi", "Descargar CV", "¿Por qué contratar a Xavi?"]
-        : ["Contact Xavi", "Download CV", "Why hire Xavi?"],
+        ? ["Contactar con Xavi", "Descargar CV", "Stack tecnológico"]
+        : ["Contact Xavi", "Download CV", "Tech stack"],
   },
 
-  // 11. Availability / Interviews
+  // 11. Availability / Contact
   {
     keywords: [
       "entrevista",
@@ -315,6 +305,7 @@ const INTENTS: IntentPattern[] = [
       "schedule",
       "interview",
       "availability",
+      "disponibilidad",
       "disponibilidad horaria",
       "reunion",
       "reunión",
@@ -322,8 +313,8 @@ const INTENTS: IntentPattern[] = [
     ],
     reply: (lang) =>
       lang === "es"
-        ? `Xavi tiene disponibilidad preferentemente **por las tardes, a partir de las 15:30 (hora de Madrid, Europe/Madrid)**. Si necesitas una entrevista por la mañana, se puede valorar y acordar previamente. Puedes escribirle a [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com) para coordinar el horario.`
-        : `Xavi is available preferably **in the afternoons, from 15:30 CET / Madrid time (Europe/Madrid)**. If you need a morning slot, it can be arranged in advance. You can reach out at [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com) to coordinate.`,
+        ? `Actualmente Xavi no está en procesos de entrevistas ni en búsqueda activa de empleo. Si quieres contactar con él para charlar sobre tecnología o proponer alguna colaboración, puedes escribirle a [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com).`
+        : `Xavi is currently not actively interviewing or seeking new job positions. If you would like to connect to discuss tech or collaborate, feel free to reach out to [xavifarmartinez@gmail.com](mailto:xavifarmartinez@gmail.com).`,
     followUps: (lang) =>
       lang === "es"
         ? ["Contacto directo", "Descargar CV", "Stack tecnológico"]

@@ -66,7 +66,7 @@ export default function Hero() {
           <p>
             {isEs ? "Soy " : "I'm an "}
             <span className="text-neutral-900 dark:text-neutral-100 font-medium">
-              {isEs ? "Desarrollador e Ingeniero de Sistemas de IA" : "AI Systems Developer & Engineer"}
+              AI Software Engineer
             </span>
             .
           </p>
@@ -160,7 +160,7 @@ export default function Hero() {
         </p>
 
         <p>
-          {isEs ? "¿Quieres contratarme o colaborar conmigo? " : "Want to hire or collaborate with me? "}
+          {isEs ? "¿Quieres colaborar conmigo? " : "Want to collaborate with me? "}
           <a
             href="#contact"
             className="text-neutral-900 dark:text-neutral-100 font-normal underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-600 hover:decoration-neutral-900 dark:hover:decoration-neutral-200 transition-colors"
